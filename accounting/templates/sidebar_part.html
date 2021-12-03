@@ -28,6 +28,19 @@
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Items</span></a>
             </li>
+            <li class="nav-item {% if collapse == "Items" %}active{% endif %}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                    <i class="fas fa-fw fa-handshake"></i>
+                    <span>Items</span>
+                </a>
+                <div id="collapse1" class="collapse {% if collapse == "Items" %}show{% endif %}" aria-labelledby="heading1" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item {% if filename == "Items" %}active{% endif %}" href="/items/">Items</a>
+                        <a class="collapse-item {% if filename == "Inventory" %}active{% endif %}" href="/inventory/">Inventory</a>
+                    </div>
+                </div>
+            </li>
+
 
             <!-- Nav Item - Pages Collapse Menu -->
 
@@ -70,6 +83,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Employess" %}active{% endif %}" href="/employess/">Employess</a>
                         <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/positions/">Positions</a>
+                        <a class="collapse-item {% if filename == "Shifts" %}active{% endif %}" href="/Shifts/">Shifts</a>
                     </div>
                 </div>
             </li>
