@@ -1,11 +1,12 @@
-# nucleos
+# DEISI 237 - Plataforma de gestão financeira e controlo de custos empresariais
 
-## Install
-* remove python2 (if applicable)
-* install python3
-* install python3-pip
-* install pipenv
-Then on the project folder run
+## Guia de Instalação
+* Remover python2 
+* Instalar python3
+* Instalar python3-pip
+* Instalar pipenv
+
+Em seguida na pasta do projeto corra os comandos abaixo
 ```
 pipenv shell
 pip install -r requirements.txt
