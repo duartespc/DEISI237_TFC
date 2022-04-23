@@ -1,0 +1,118 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "dc72a205137fad1746668bb542592da4b310fe454cafae7cd1f284be6ccf9bae"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.10"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "asgiref": {
+            "hashes": [
+                "sha256:4ef1ab46b484e3c706329cedeff284a5d40824200638503f5768edb6de7d58e9",
+                "sha256:ffc141aa908e6f175673e7b1b3b7af4fdb0ecb738fc5c8b88f69f055c2415214"
+            ],
+            "index": "pypi",
+            "version": "==3.4.1"
+        },
+        "crispy-bootstrap5": {
+            "hashes": [
+                "sha256:ca5d2afc2a5d1cf12b8d057886a81002cdf7793afcbe0ce006c2294069c1f387",
+                "sha256:e8c50daaf266d6127c7414f5669d5f2467b640d08b045ed9dd57e351d30609ae"
+            ],
+            "index": "pypi",
+            "version": "==0.6"
+        },
+        "django": {
+            "hashes": [
+                "sha256:51284300f1522ffcdb07ccbdf676a307c6678659e1284f0618e5a774127a6a08",
+                "sha256:e22c9266da3eec7827737cde57694d7db801fedac938d252bf27377cec06ed1b"
+            ],
+            "index": "pypi",
+            "version": "==3.2.9"
+        },
+        "django-countries": {
+            "hashes": [
+                "sha256:26878b54d36bedff30b4535ceefcb8af6784741a8b30b1b8a662fb14a936a4ab",
+                "sha256:adc965f1d348124274b7d918fc1aad5e29609758af999e1822baa9f2cc06d1b8"
+            ],
+            "index": "pypi",
+            "version": "==7.2.1"
+        },
+        "django-crispy-forms": {
+            "hashes": [
+                "sha256:4dc9e5263c91c5f51766806a050ca2ec5c349d34c5cd91fcca3a1a0363b5e29e",
+                "sha256:9c49d29dd9e98dc2e6e3a8b02670d72deb6edf7bc616986ca412d72c306b36a0"
+            ],
+            "index": "pypi",
+            "version": "==1.13.0"
+        },
+        "django-localflavor": {
+            "hashes": [
+                "sha256:6593865dc671333b3edc88e729e6d384d00b6db7891ef5d3a65db831a40050d2",
+                "sha256:ac2fa377bbcba4cae95e97077d9e77c7f22b3d93e4845e2e133ba7e664043a44"
+            ],
+            "index": "pypi",
+            "version": "==3.1"
+        },
+        "django-phonenumber-field": {
+            "hashes": [
+                "sha256:9695d3beda772c503ad4e04a4f7012a8227e9e3e4fd0ea4ffb07c43245bf4a8d",
+                "sha256:bbb9cb2e6fc53c476de40428e1354c313a040e8b2fb69ea8ead4ba41a60f926a"
+            ],
+            "index": "pypi",
+            "version": "==6.0.0"
+        },
+        "phonenumberslite": {
+            "hashes": [
+                "sha256:c98334ccd6e87067594584b7f4e3a210b6e1080b8e1ac7c7caffdb7c33fbce55",
+                "sha256:cd9c28e73ac2bc470b015efd84fa38ffe1adff4446f53f4244af81d9602e500b"
+            ],
+            "index": "pypi",
+            "version": "==8.12.38"
+        },
+        "python-stdnum": {
+            "hashes": [
+                "sha256:374e2b5e13912ccdbf50b0b23fca2c3e0531174805c32d74e145f37756328340",
+                "sha256:a46e6cf9652807314d369b654b255c86a59f93d18be2834f3d567ed1a346c547"
+            ],
+            "index": "pypi",
+            "version": "==1.17"
+        },
+        "pytz": {
+            "hashes": [
+                "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c",
+                "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"
+            ],
+            "index": "pypi",
+            "version": "==2021.3"
+        },
+        "sqlparse": {
+            "hashes": [
+                "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
+                "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
+            ],
+            "index": "pypi",
+            "version": "==0.4.2"
+        }
+    },
+    "develop": {
+        "yapf": {
+            "hashes": [
+                "sha256:8fea849025584e486fd06d6ba2bed717f396080fd3cc236ba10cb97c4c51cf32",
+                "sha256:a3f5085d37ef7e3e004c4ba9f9b3e40c54ff1901cd111f05145ae313a7c67d1b"
+            ],
+            "index": "pypi",
+            "version": "==0.32.0"
+        }
+    }
+}

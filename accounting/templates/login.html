@@ -3,7 +3,9 @@
 
 <head>
 
-  {% include "head_part.html" %}
+    {% include "head_part.html" %}
+
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
 
 </head>
 
@@ -24,45 +26,49 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Bem-vindo de Volta!</h1>
                                     </div>
-                                    <form class="user" method="post" >
+                                    {% if user.is_authenticated %}
+                                    <div>
+                                        <p class="errornote">
+                                            Está autenticado como {{user.get_username}}, mas não está autorizado a aceder a esta página.
+                                            Gostaria de entrar noutra conta de utilizador?
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    <form class="user" method="post">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <input class="form-control form-control-user"
-                                                   name="username"
+                                            <input class="form-control form-control-user" name="username"
                                                 id="exampleInputUsername" aria-describedby="usernameHelp"
-                                                placeholder="Enter username...">
+                                                placeholder="Introduza o nome de utilizador...">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   name="password"
-                                                id="exampleInputPassword" placeholder="Password">
+                                                name="password" id="exampleInputPassword" placeholder="Palavra-passe">
                                         </div>
                                         {% if error %}
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <label style="color:red" >{{ error }}</label>
-                                            </div>
+                                           
                                         </div>
                                         {% endif %}
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <label class="custom-control-label" for="customCheck">Lembrar-se de
+                                                    Mim</label>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                            Iniciar Sessão
                                         </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="forgot-password.html">Esqueceu-se da Palavra-passe?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="register.html">Crie uma conta!</a>
                                     </div>
                                 </div>
                             </div>

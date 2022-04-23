@@ -40,7 +40,10 @@ INSTALLED_APPS = [
 	'phonenumber_field',
 	'crispy_forms',	
     "crispy_bootstrap5",
-    'accounting'
+    'accounting',
+    'jquery',
+    'schedule',
+    'djangobower',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -87,6 +91,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+#AUTH_USER_MODEL = 'accounts.User'
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -121,18 +128,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATICFILES_FINDERS = [
+    'djangobower.finders.BowerFinder',
+]
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components/')
 MEDIA_URL = '/uploads/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 LOGIN_URL = "/login.html"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'jquery-ui',
+    'bootstrap'
+)

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% load crispy_forms_tags %}
+    {% include "head_part.html" %}
+
+    <!-- Custom styles for this page -->
+    <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% include "sidebar_part.html" %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                {% include "topbar_part.html" %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <div class="row py-4 align-items-center">
+                        <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
+                            <h2 class="d-inline-flex mb-0 long-texts">Itens</h2>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 col-md-7">
+
+                            <!-- New Item Button that activates a Modal! (Pop-up Form) -->
+                            <button type="button" id="addItemButton" class="btn btn-info btn-icon-split float-right"
+                                data-toggle="modal" data-target="#itemModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Adicionar Item</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Item DataTable -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <form action="{% url 'ItemBulkAction'%}" method="POST">{% csrf_token %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="itemTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr class="except">
+                                                <th class="except" data-orderable="false">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="checkAll" value="option1">
+                                                        <label class="form-check-label except" for="checkAll">Selecionar
+                                                            Todos</label>
+                                                    </div>
+                                                </th>
+                                                <th class="except">Descrição</th>
+                                                <th class="except">Custo</th>
+                                                <th class="except">Fornecedor</th>
+                                                <th class="except">PVP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in items %}
+                                            <tr class='clickable-row' data-pid='{{i.id}}' data-href="./edit/{{i.id}}">
+                                                <td class="except">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="inlineCheckbox1" name="instance" value="{{i.id}}">
+                                                    </div>
+                                                </td>
+                                                <td>{{i.description}}</td>
+                                                <td>{{i.cost}}</td>
+                                                <td>{{i.supplier_Id}}</td>
+                                                <td>{{i.pvp}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit" onclick="return confirm('Está seguro? Esta ação não pode ser revertida!')" class="btn btn-danger btn-icon-split float-left">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    <span class="text">Eliminar selecionados</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- New Item Modal -->
+                    <div class="modal fade" id="itemModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id=form-modal-title>Adicionar Item</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" id="my-modal-body">
+
+                                    {% block content %}
+                                    <form method="POST">{% csrf_token %}
+                                        {{ form | crispy }}
+
+                                        <button type="submit" class="btn btn-info btn-icon-split float-right">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-save"></i>
+                                            </span>
+                                            <span class="text">Guardar</span>
+                                        </button>
+
+
+                                    </form>
+                                    {% endblock %}
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            {% include "footer_part.html" %}
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    {% include "modals_and_scripts_part.html" %}
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#itemTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/pt_pt.json'
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false,
+                    "width": "14%"
+                }]
+            });
+
+            $(".clickable-row, #itemTable").on('click', 'tr', function (e) {
+                if (!$(event.target).hasClass("except") && $('#itemTable').DataTable().data().count()) {
+                    window.location = $(this).data('href');
+                }
+            });
+            $("#addItemButton").click(function () {
+                $("#itemModal").modal('show');
+            });
+        })
+
+
+    </script>
+
+</body>
+
+</html>

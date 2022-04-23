@@ -6,7 +6,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">DEISI 237</div>
             </a>
 
             <!-- Divider -->
@@ -16,27 +16,24 @@
             <li class="nav-item {% if filename == "index" %}active{% endif %}">
                 <a class="nav-link" href="/index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Painel</span></a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
 
-            <li class="nav-item {% if filename == "items" %}active{% endif %}">
-                <a class="nav-link " href="/items/">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Items</span></a>
-            </li>
+            
             <li class="nav-item {% if collapse == "Items" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                    <i class="fas fa-fw fa-handshake"></i>
-                    <span>Items</span>
+                <a class="nav-link collapsed" href="# " data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Itens</span>
                 </a>
                 <div id="collapse1" class="collapse {% if collapse == "Items" %}show{% endif %}" aria-labelledby="heading1" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Items" %}active{% endif %}" href="/items/">Items</a>
-                        <a class="collapse-item {% if filename == "Inventory" %}active{% endif %}" href="/inventory/">Inventory</a>
+                        <a class="collapse-item {% if filename == "Items" %}active{% endif %}" href="/items/">Itens</a>
+                        <a class="collapse-item {% if filename == "Inventory" %}active{% endif %}" href="/inventario/">Inventário</a>
+                        <a class="collapse-item {% if filename == "Warehouses" %}active{% endif %}" href="/armazens/">Armazéns</a>
                     </div>
                 </div>
             </li>
@@ -45,45 +42,45 @@
             <!-- Nav Item - Pages Collapse Menu -->
 
             <li class="nav-item {% if collapse == "Sales" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
                     <i class="fas fa-fw fa-handshake"></i>
-                    <span>Sales</span>
+                    <span>Vendas</span>
                 </a>
-                <div id="collapse1" class="collapse {% if collapse == "Sales" %}show{% endif %}" aria-labelledby="heading1" data-parent="#accordionSidebar">
+                <div id="collapse2" class="collapse {% if collapse == "Sales" %}show{% endif %}" aria-labelledby="heading2" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Costumers" %}active{% endif %}" href="/costumers/">Costumers</a>
-                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/cards.html">Invoices</a>
-                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/cards.html">Payments</a>
+                        <a class="collapse-item {% if filename == "Customers" %}active{% endif %}" href="/clientes/">Clientes</a>
+                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
                 </div>
             </li>
 
 
-            <li class="nav-item {% if collapse == "Purchases" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+            <li class="nav-item {% if collapse == "Customers" %}active{% endif %}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
                     <i class="fas fa-fw fa-shopping-cart"></i>
-                    <span>Purchases</span>
+                    <span>Compras</span>
                 </a>
-                <div id="collapse2" class="collapse {% if collapse == "Costumers" %}show{% endif %}" aria-labelledby="heading2" data-parent="#accordionSidebar">
+                <div id="collapse3" class="collapse {% if collapse == "Customers" %}show{% endif %}" aria-labelledby="heading3" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Suppliers" %}active{% endif %}" href="/suppliers/">Suppliers</a>
-                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/cards.html">Invoices</a>
-                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/cards.html">Payments</a>
+                        <a class="collapse-item {% if filename == "Suppliers" %}active{% endif %}" href="/fornecedores/">Fornecedores</a>
+                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
                 </div>
             </li>			
 
 
             <li class="nav-item {% if collapse == "HR" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>HR</span>
+                    <span>Recursos Humanos</span>
                 </a>
-                <div id="collapse3" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading3" data-parent="#accordionSidebar">
+                <div id="collapse4" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading4" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Employess" %}active{% endif %}" href="/employess/">Employess</a>
-                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/positions/">Positions</a>
-                        <a class="collapse-item {% if filename == "Shifts" %}active{% endif %}" href="/Shifts/">Shifts</a>
+                        <a class="collapse-item {% if filename == "Employees" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
+                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/cargos/">Cargos</a>
+                        <a class="collapse-item {% if filename == "Shifts" %}active{% endif %}" href="/turnos/">Turnos</a>
                     </div>
                 </div>
             </li>
@@ -91,14 +88,14 @@
 			
 
             <li class="nav-item {% if collapse == "Banking" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
                     <i class="fas fa-fw fa-dollar-sign"></i>
-                    <span>Banking</span>
+                    <span>Banco</span>
                 </a>
-                <div id="collapse4" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading4" data-parent="#accordionSidebar">
+                <div id="collapse5" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading5" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Employess" %}active{% endif %}" href="/employess/">Employess</a>
-                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/positions/">Positions</a>
+                        <a class="collapse-item {% if filename == "Employees" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
+                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/cargos/">Cargos</a>
                     </div>
                 </div>
             </li>			
@@ -107,7 +104,13 @@
 			<li class="nav-item {% if filename == "Reports" %}active{% endif %}">
                 <a class="nav-link " href="/items/">
                     <i class="fas fa-fw fa-chart-pie"></i>
-                    <span>Reports</span></a>
+                    <span>Relatórios</span></a>
+            </li>
+
+            <li class="nav-item {% if filename == "taskList" %}active{% endif %}">
+                <a class="nav-link " href="/tarefas/">
+                    <i class="fas fa-fw fa-clipboard-list"></i>
+                    <span>Tarefas</span></a>
             </li>
 
 
@@ -115,13 +118,14 @@
 
 
             <li class="nav-item {% if collapse == "Settings" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Settings</span>
+                    <span>Definições</span>
                 </a>
-                <div id="collapse5" class="collapse {% if collapse == "Settings" %}show{% endif %}" aria-labelledby="heading5" data-parent="#accordionSidebar">
+                <div id="collapse6" class="collapse {% if collapse == "Settings" %}show{% endif %}" aria-labelledby="heading6" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Titles" %}active{% endif %}" href="/titles/">Titles</a>
+                        <a class="collapse-item {% if filename == "Titles" %}active{% endif %}" href="/titulos/">Títulos</a>
+                        <a class="collapse-item {% if filename == "Iva" %}active{% endif %}" href="/iva/">Taxas IVA</a>
                     </div>
                 </div>
             </li>	
@@ -134,13 +138,13 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>Componentes</span>
                 </a>
                 <div id="collapseTwo" class="collapse {% if collapse == "components" %}show{% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item {% if filename == "buttons" %}active{% endif %}" href="/buttons.html">Buttons</a>
-                        <a class="collapse-item {% if filename == "cards" %}active{% endif %}" href="/cards.html">Cards</a>
+                        <h6 class="collapse-header">Componentes customizados:</h6>
+                        <a class="collapse-item {% if filename == "buttons" %}active{% endif %}" href="/buttons.html">Botões</a>
+                        <a class="collapse-item {% if filename == "cards" %}active{% endif %}" href="/cards.html">Cartões</a>
                     </div>
                 </div>
             </li>
@@ -150,12 +154,12 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>Utilidades</span>
                 </a>
                 <div id="collapseUtilities" class="collapse {% if collapse == "utilities" %}show{% endif %}" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <h6 class="collapse-header">Utilidades Customizadas:</h6>
                         <a class="collapse-item {% if filename == "utilities-color" %}active{% endif %}" href="/utilities-color.html">Colors</a>
                         <a class="collapse-item {% if filename == "utilities-border" %}active{% endif %}" href="/utilities-border.html">Borders</a>
                         <a class="collapse-item {% if filename == "utilities-animation" %}active{% endif %}" href="/utilities-animation.html">Animations</a>
@@ -168,19 +172,19 @@
             <li class="nav-item {% if collapse == "pages" %}active{% endif %}">
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Páginas</span>
                 </a>
                 <div id="collapsePages" class="collapse  {% if collapse == "pages" %}show{% endif %}" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item {% if filename == "login" %}active{% endif %}" href="/login.html">Login</a>
-                        <a class="collapse-item {% if filename == "register" %}active{% endif %}" href="/register.html">Register</a>
-                        <a class="collapse-item {% if filename == "forgot-password" %}active{% endif %}" href="/forgot-password.html">Forgot Password</a>
+                        <a class="collapse-item {% if filename == "login" %}active{% endif %}" href="/login.html">Iniciar Sessão</a>
+                        <a class="collapse-item {% if filename == "register" %}active{% endif %}" href="/register.html">Registar</a>
+                        <a class="collapse-item {% if filename == "forgot-password" %}active{% endif %}" href="/forgot-password.html">Esqueceu-se da palavra-passe?</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item {% if filename == "404" %}active{% endif %}" href="/404.html">404 Page</a>
-                        <a class="collapse-item {% if filename == "blank" %}active{% endif %}" href="/blank.html">Blank Page</a>
+                        <a class="collapse-item {% if filename == "404" %}active{% endif %}" href="/404.html">Página 404</a>
+                        <a class="collapse-item {% if filename == "blank" %}active{% endif %}" href="/blank.html">Página em Branco</a>
                     </div>
                 </div>
             </li>
@@ -189,14 +193,14 @@
             <li class="nav-item {% if filename == "charts" %}active{% endif %}">
                 <a class="nav-link " href="/charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                    <span>Gráficos</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item {% if filename == "tables" %}active{% endif %}">
                 <a class="nav-link" href="/tables.html">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span>Tabelas</span></a>
             </li>
 
             <!-- Divider -->
