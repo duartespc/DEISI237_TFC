@@ -1,7 +1,6 @@
 # DEISI 237 - Plataforma de gestão financeira e controlo de custos empresariais
 
 ## Guia de Instalação
-* Remover python2 
 * Instalar python3
 * Instalar python3-pip
 * Instalar pipenv
