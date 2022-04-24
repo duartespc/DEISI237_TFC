@@ -15,3 +15,5 @@ icalendar>=3.8.4
 isort
 python-dateutil>=2.1
 wheel
+django-scheduler
+djangobower
