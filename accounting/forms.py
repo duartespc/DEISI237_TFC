@@ -39,7 +39,7 @@ class SaftForm(forms.ModelForm):
         fields = "__all__"
 
         labels = {
-            'zeroStock': 'Quero inicializar o stock como vazio',
+            'zeroStock': 'Inicializar o stock todo a 0',
             'itemProfitRate': 'Taxa Lucro Produtos',
             'month': 'Mês:',
             'file': 'Ficheiro:'
