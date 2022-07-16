@@ -20,3 +20,4 @@ django_jquery==3.1.0
 django_scheduler==0.9.6
 schedule
 xmltodict
+environ
