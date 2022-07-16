@@ -31,12 +31,12 @@
 
                     <div class="row py-4 align-items-center">
                         <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
-                            <h2 class="d-inline-flex mb-0 long-texts">Itens</h2>
+                            <h2 class="d-inline-flex mb-0 h2 text-gray-800">Itens</h2>
                         </div>
                         <div class="col-xs-12 col-sm-8 col-md-7">
 
                             <!-- New Item Button that activates a Modal! (Pop-up Form) -->
-                            <button type="button" id="addItemButton" class="btn btn-info btn-icon-split float-right"
+                            <button type="button" id="addItemButton" class="btn btn-primary btn-icon-split float-right"
                                 data-toggle="modal" data-target="#itemModal">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-plus"></i>
@@ -64,6 +64,7 @@
                                                     </div>
                                                 </th>
                                                 <th class="except">Descrição</th>
+                                                <th class="except">Código</th>
                                                 <th class="except">Custo</th>
                                                 <th class="except">Fornecedor</th>
                                                 <th class="except">PVP</th>
@@ -79,9 +80,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{i.description}}</td>
-                                                <td>{{i.cost}}</td>
+                                                <td>{{i.code}}</td>
+                                                <td>{{i.cost}}€</td>
                                                 <td>{{i.supplier_Id}}</td>
-                                                <td>{{i.pvp}}</td>
+                                                <td>{{i.pvp}}€</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -113,7 +115,7 @@
                                     <form method="POST">{% csrf_token %}
                                         {{ form | crispy }}
 
-                                        <button type="submit" class="btn btn-info btn-icon-split float-right">
+                                        <button type="submit" class="btn btn-primary btn-icon-split float-right">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-save"></i>
                                             </span>
@@ -126,7 +128,7 @@
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                                 </div>
                             </div>
 

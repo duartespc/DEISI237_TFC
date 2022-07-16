@@ -1,3 +1,7 @@
+import environ
+
+
+
 """
 Django settings for nucleos project.
 
@@ -42,8 +46,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'accounting',
     'jquery',
-    'schedule',
     'djangobower',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +81,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nucleos.wsgi.application'
 
+# Configure your Q cluster
+# More details https://django-q.readthedocs.io/en/latest/configure.html
+Q_CLUSTER = {
+    "name": "nucleos",
+    "orm": "default",  # Use Django's ORM + database for broker
+    'retry': 5,
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -157,3 +168,16 @@ BOWER_INSTALLED_APPS = (
     'jquery-ui',
     'bootstrap'
 )
+
+env = environ.Env()
+environ.Env.read_env()
+
+# Bottom of the file
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')

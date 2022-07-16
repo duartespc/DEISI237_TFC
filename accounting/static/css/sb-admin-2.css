@@ -559,6 +559,49 @@ pre code {
   margin-left: auto;
 }
 
+.calendar {
+  width: 60%;
+  margin: auto;
+  font-size: 13px;
+}
+
+.calendar tr, .calendar td {
+  border: 1px solid black;
+}
+
+.calendar th {
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.calendar td {
+  width: 90px;
+  height: 70px;
+  padding: 20px 0px 0px 5px;
+}
+
+.month {
+  font-size: 25px;
+}
+
+.date {
+  font-size: 16px;
+}
+
+ul {
+  height: 100%;
+  padding: 0px 5px 0px 20px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
 @media (min-width: 576px) {
   .container, .container-sm {
     max-width: 540px;
@@ -11227,6 +11270,9 @@ form.user .btn-user {
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);
   animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+footer.fixed-bottom{
+  margin-bottom: 2%;
 }
 
 footer.sticky-footer {

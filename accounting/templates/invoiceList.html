@@ -31,14 +31,59 @@
 
                     <div class="row py-4 align-items-center">
                         <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
-                            <h2 class="d-inline-flex mb-0 long-texts">Faturas</h2>
+                            <h2 class="d-inline-flex mb-0 h2 text-gray-800">Faturas</h2>
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
+                    <!-- Invoices DataTable -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
-                            
+                            <form action="{% url 'InvoiceBulkAction'%}" method="POST">{% csrf_token %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="invoiceTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr class="except">
+                                                <th class="except" data-orderable="false">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="checkAll" value="option1">
+                                                        <label class="form-check-label except" for="checkAll">Selecionar
+                                                            Todos</label>
+                                                    </div>
+                                                </th>
+                                                <th class="except">Nº de fatura</th>
+                                                <th class="except">Data</th>
+                                                <th class="except">Taxa IVA</th>
+                                                <th class="except">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in invoices %}
+                                            <tr class='clickable-row' data-pid='{{i.id}}' data-href="./edit/{{i.id}}">
+                                                <td class="except">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="inlineCheckbox1" name="instance" value="{{i.id}}">
+                                                    </div>
+                                                </td>
+                                                <td>{{i.docNumber}}</td>
+                                                <td>{{i.date|date:"d-m-Y"}}</td>
+                                                <td>{{i.tax}}%</td>
+                                                <td>{{i.netTotal}}€</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit"
+                                    onclick="return confirm('Está seguro? Esta ação não pode ser revertida!')"
+                                    class="btn btn-danger btn-icon-split float-left">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    <span class="text">Eliminar selecionados</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
 
@@ -69,6 +114,31 @@
     <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#invoiceTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/pt_pt.json'
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false,
+                    "width": "14%"
+                }]
+            });
+
+            $(".clickable-row, #invoiceTable").on('click', 'tr', function (e) {
+                if (!$(event.target).hasClass("except") && $('#invoiceTable').DataTable().data().count()) {
+                    window.location = $(this).data('href');
+                }
+            });
+        })
+
+
+    </script>
 
 </body>
 

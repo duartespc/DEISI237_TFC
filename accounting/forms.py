@@ -1,7 +1,49 @@
 from django import forms
-from django.forms import widgets
+from django.forms import HiddenInput, DateInput
 from .models import *
 from .widgets import DatePickerInput, TimePickerInput
+
+
+class EventForm(forms.ModelForm):
+
+    class Meta:
+        model = Event
+        # datetime-local is a HTML5 input type, format to make date time show on fields
+        widgets = {
+            'start_time':
+            DateInput(attrs={'type': 'datetime-local'},
+                      format='%Y-%m-%dT%H:%M'),
+            'end_time':
+            DateInput(attrs={'type': 'datetime-local'},
+                      format='%Y-%m-%dT%H:%M'),
+        }
+        labels = {
+            'title': 'Título:',
+            'description': 'Descrição',
+            'start_time': 'Início:',
+            'end_time': 'Fim:'
+        }
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        # input_formats to parse HTML5 datetime-local input to datetime field
+        self.fields['start_time'].input_formats = ('%Y-%m-%dT%H:%M', )
+        self.fields['end_time'].input_formats = ('%Y-%m-%dT%H:%M', )
+
+
+class SaftForm(forms.ModelForm):
+
+    class Meta:
+        model = Saft
+        fields = "__all__"
+
+        labels = {
+            'zeroStock': 'Quero inicializar o stock como vazio',
+            'itemProfitRate': 'Taxa Lucro Produtos',
+            'month': 'Mês:',
+            'file': 'Ficheiro:'
+        }
 
 
 class CustomerForm(forms.ModelForm):
@@ -12,7 +54,7 @@ class CustomerForm(forms.ModelForm):
 
         widgets = {
             'format': 'YYYY/MM/DD',
-            'dateOfBirth' : DatePickerInput(),
+            'dateOfBirth': DatePickerInput(),
         }
 
         labels = {
@@ -41,7 +83,7 @@ class EmployeeForm(forms.ModelForm):
 
         widgets = {
             'format': 'YYYY/MM/DD',
-            'dateOfBirth' : DatePickerInput(),
+            'dateOfBirth': DatePickerInput(),
         }
 
         labels = {
@@ -61,6 +103,25 @@ class EmployeeForm(forms.ModelForm):
         }
 
 
+class PaymentForm(forms.ModelForm):
+
+    class Meta:
+        model = Payment
+        fields = "__all__"
+
+        widgets = {
+            'format': 'YYYY/MM/DD',
+            'date': DatePickerInput(),
+        }
+
+        labels = {
+            'description': 'Descrição:',
+            'cost': 'Valor:',
+            'employee': 'Funcionário:',
+            'date': 'Data:',
+        }
+
+
 class ItemForm(forms.ModelForm):
 
     class Meta:
@@ -68,12 +129,12 @@ class ItemForm(forms.ModelForm):
         fields = "__all__"
 
         labels = {
+            'code': 'Código produto',
             'category': 'Categoria:',
-            'iva': 'IVA:',
+            'tax': 'IVA:',
             'cost': 'Custo(€):',
-            'unit': 'Unidade:',
             'description': 'Descrição:',
-            'external_ref': 'Referência Externa:',
+            'external_Ref': 'Referência Externa:',
             'weight': 'Peso:',
             'origin': 'Origem:',
             'notes': 'Notas:',
@@ -82,18 +143,51 @@ class ItemForm(forms.ModelForm):
         }
 
 
-class IvaForm(forms.ModelForm):
+class InvoiceForm(forms.ModelForm):
 
     class Meta:
-        model = Iva
+        model = Invoice
         fields = "__all__"
 
-        labels = {'rate': 'Taxa:', 'name': 'Nome:'}
+        labels = {
+            'docNumber': 'Nº fatura:',
+            'customer': 'Cliente:',
+            'date': 'Data:',
+            'tax': 'Taxa IVA:',
+            'netTotal': 'Preço (Líquido):',
+            'grossTotal': 'Preço (Bruto):'
+        }
 
-    def __init__(self, *args, **kwargs):
-        super(IvaForm, self).__init__(*args, **kwargs)
-        for field in iter(self.fields):
-            self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+class OrderForm(forms.ModelForm):
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+        widgets = {
+            'format': 'YYYY/MM/DD',
+            'date': DatePickerInput(),
+        }
+
+        labels = {
+            'quantity': 'Quantidade:',
+            'description': 'Descrição:',
+            'cost': 'Valor:',
+            'supplier': 'Fornecedor:',
+            'warehouse': 'Armazém:',
+            'date': 'Data:',
+        }
+
+class MessageForm(forms.ModelForm):
+
+    class Meta:
+        model = Message
+        fields = "__all__"
+
+        labels = {'receiver': 'Para:', 'msg_content': 'Mensagem:'}
+        widgets = {'sender': forms.HiddenInput()}
+
 
 
 class PositionForm(forms.ModelForm):
@@ -113,7 +207,7 @@ class SupplierForm(forms.ModelForm):
 
         widgets = {
             'format': 'YYYY/MM/DD',
-            'dateOfBirth' : DatePickerInput(),
+            'dateOfBirth': DatePickerInput(),
         }
 
         labels = {
@@ -138,14 +232,13 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = "__all__"
 
-
         widgets = {
-                        'format': 'YYYY/MM/DD',
-
-            'startDate' : DatePickerInput(),
-            'endDate' : DatePickerInput(),
-            'startTime' : TimePickerInput(),
-            'endTime' : TimePickerInput(),
+            'format': 'YYYY/MM/DD',
+            'startDate': DatePickerInput(),
+            'endDate': DatePickerInput(),
+            'startTime': TimePickerInput(),
+            'endTime': TimePickerInput(),
+            'createdBy': HiddenInput()
         }
 
         labels = {
@@ -157,19 +250,8 @@ class TaskForm(forms.ModelForm):
             'endTime': 'Hora Fim:',
             'completed': 'Completada',
             'createdOn': 'Criado em:',
-            'updatedOn': 'Atualizado em:',
-            'createdBy': 'Criada por:',
             'assignedTo': 'Atribuída a:'
         }
-
-
-class TitleForm(forms.ModelForm):
-
-    class Meta:
-        model = Title
-        fields = "__all__"
-
-        labels = {'title': 'Título:'}
 
 
 class WarehouseForm(forms.ModelForm):

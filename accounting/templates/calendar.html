@@ -1,0 +1,13 @@
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="clearfix">
+            <a class="btn btn-info left" href="{% url 'calendar' %}?{{ prev_month }}"> Anterior </a>
+            <a class="btn btn-info right" href="{% url 'calendar' %}?{{ next_month }}"> Próximo </a>
+            <a class="btn btn-info right" href="{% url 'event_new' %}"> Novo Evento </a>
+            {{ calendar }}
+        </div>
+    </div>
+</div>
+{% endblock %}

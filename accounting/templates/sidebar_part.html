@@ -50,7 +50,6 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Customers" %}active{% endif %}" href="/clientes/">Clientes</a>
                         <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
-                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
                 </div>
             </li>
@@ -65,6 +64,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Suppliers" %}active{% endif %}" href="/fornecedores/">Fornecedores</a>
                         <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Orders" %}active{% endif %}" href="/encomendas/">Encomendas</a>
                         <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
 
 
 			<li class="nav-item {% if filename == "Reports" %}active{% endif %}">
-                <a class="nav-link " href="/items/">
+                <a class="nav-link " href="/relatorios/">
                     <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Relatórios</span></a>
             </li>
@@ -111,6 +111,12 @@
                 <a class="nav-link " href="/tarefas/">
                     <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>Tarefas</span></a>
+            </li>
+
+            <li class="nav-item {% if filename == "calendar" %}active{% endif %}">
+                <a class="nav-link " href="/calendario/">
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendário</span></a>
             </li>
 
 
@@ -124,7 +130,6 @@
                 </a>
                 <div id="collapse6" class="collapse {% if collapse == "Settings" %}show{% endif %}" aria-labelledby="heading6" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Titles" %}active{% endif %}" href="/titulos/">Títulos</a>
                         <a class="collapse-item {% if filename == "Iva" %}active{% endif %}" href="/iva/">Taxas IVA</a>
                     </div>
                 </div>

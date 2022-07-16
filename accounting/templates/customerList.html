@@ -31,12 +31,12 @@
 
                     <div class="row py-4 align-items-center">
                         <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
-                            <h2 class="d-inline-flex mb-0 long-texts">Clientes</h2>
+                            <h2 class="d-inline-flex mb-0 h2 text-gray-800">Clientes</h2>
                         </div>
                         <div class="col-xs-12 col-sm-8 col-md-7">
 
                             <!-- New Client Button that activates a Modal! (Pop-up Form) -->
-                            <button type="button" id="addClientButton" class="btn btn-info btn-icon-split float-right"
+                            <button type="button" id="addClientButton" class="btn btn-primary btn-icon-split float-right"
                                 data-toggle="modal" data-target="#addClientModal">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-plus"></i>
@@ -86,7 +86,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <button type="submit" onclick="return confirm('Está seguro? Esta ação não pode ser revertida!')" class="btn btn-danger btn-icon-split float-left">
+                                <button type="submit"
+                                    onclick="return confirm('Está seguro? Esta ação não pode ser revertida!')"
+                                    class="btn btn-danger btn-icon-split float-left">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash-alt"></i>
                                     </span>
@@ -97,9 +99,8 @@
                     </div>
 
                     <!-- New Customer Modal -->
-                    <div class="modal fade" id="clientModal" role="dialog">
+                    <div class="modal fade" id="addClientModal" role="dialog">
                         <div class="modal-dialog">
-
                             <!--  Modal content  -->
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -110,7 +111,7 @@
 
                                     <form action="" method="POST">{% csrf_token %}
                                         {{ form | crispy }}
-                                        <button type="submit" class="btn btn-info btn-icon-split float-right">
+                                        <button type="submit" class="btn btn-primary btn-icon-split float-right">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-save"></i>
                                             </span>
@@ -159,7 +160,6 @@
 
     <!-- Page level custom scripts -->
 
-
     <script>
 
         $(document).ready(function () {
@@ -169,7 +169,7 @@
                     url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/pt_pt.json'
                 },
                 "columnDefs": [{
-                    "targets": [0, 4],
+                    "targets": [0],
                     "orderable": false,
                     "width": "16%"
                 }]

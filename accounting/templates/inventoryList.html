@@ -31,7 +31,7 @@
 
                     <div class="row py-4 align-items-center">
                         <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
-                            <h2 class="d-inline-flex mb-0 long-texts">Inventário</h2>
+                            <h2 class="d-inline-flex mb-0 h2 text-gray-800">Inventário</h2>
                         </div>
                         <div class="col-xs-12 col-sm-8 col-md-7">
 
@@ -46,9 +46,8 @@
                                     <thead>
                                         <tr class="except">
                                             <th class="except">Item</th>
-                                            <th class="except">Custo</th>
+                                            <th class="except">Código</th>
                                             <th class="except">Fornecedor</th>
-                                            <th class="except">PVP</th>
                                             <th class="except">Quantidade em Stock</th>
                                             <th class="except">Valor a reaver(€)</th>
                                         </tr>
@@ -57,15 +56,14 @@
                                         {% for i in items %}
                                         <tr class='clickable-row' data-pid='{{i.id}}'>
                                             <td>{{i.description}}</td>
-                                            <td>{{i.cost}}</td>
+                                            <td>{{i.code}}</td>
                                             <td>{{i.supplier_Id}}</td>
-                                            <td>{{i.pvp}}</td>
-                                            <td>TODO</td>
-                                            <td>TODO</td>
+                                            <td>{{i.quantity|floatformat:"0"}}</td>
+                                            <td>{% widthratio i.quantity 1 i.pvp %}€</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
-                                </table>
+                                </table>  
                             </div>
                         </div>
                     </div>

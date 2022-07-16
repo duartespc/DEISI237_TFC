@@ -31,14 +31,107 @@
 
                     <div class="row py-4 align-items-center">
                         <div class="col-xs-12 col-sm-4 col-md-5 align-items-center">
-                            <h2 class="d-inline-flex mb-0 long-texts">Pagamentos</h2>
+                            <h2 class="d-inline-flex mb-0 h2 text-gray-800">Pagamentos</h2>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 col-md-7">
+
+                            <!-- New Payment Button that activates a Modal! (Pop-up Form) -->
+                            <button type="button" id="addPaymentButton" class="btn btn-primary btn-icon-split float-right"
+                                data-toggle="modal" data-target="#paymentModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Adicionar Pagamento</span>
+                            </button>
+
                         </div>
                     </div>
 
-                    <!-- DataTales Example -->
+                    <!-- Payments DataTable -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
-                            
+                            <form action="{% url 'PaymentBulkAction'%}" method="POST">{% csrf_token %}
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="paymentTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr class="except">
+                                                <th class="except" data-orderable="false">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="checkAll" value="option1">
+                                                        <label class="form-check-label except" for="checkAll">Selecionar
+                                                            Todos</label>
+                                                    </div>
+                                                </th>
+                                                <th class="except">Descrição</th>
+                                                <th class="except">Valor</th>
+                                                <th class="except">Funcionário</th>
+                                                <th class="except">Data</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for p in payments %}
+                                            <tr class='clickable-row' data-pid='{{p.id}}' data-href="./edit/{{p.id}}">
+                                                <td class="except">
+                                                    <div class="form-check form-check-inline except">
+                                                        <input class="form-check-input except" type="checkbox"
+                                                            id="inlineCheckbox1" name="instance" value="{{p.id}}">
+                                                    </div>
+                                                </td>
+                                                <td>{{p.description}}</td>
+                                                <td>{{p.cost}}€</td>
+                                                <td>{{p.employee}}</td>
+                                                <td>{{p.date}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button type="submit"
+                                    onclick="return confirm('Está seguro? Esta ação não pode ser revertida!')"
+                                    class="btn btn-danger btn-icon-split float-left">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    <span class="text">Eliminar selecionados</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- New Payment Modal -->
+                    <div class="modal fade" id="paymentModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id=form-modal-title>Adicionar Pagamento</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" id="my-modal-body">
+
+                                    {% block content %}
+                                    <form method="POST">{% csrf_token %}
+                                        {{ form | crispy }}
+
+                                        <button type="submit" class="btn btn-primary btn-icon-split float-right">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-save"></i>
+                                            </span>
+                                            <span class="text">Guardar</span>
+                                        </button>
+
+
+                                    </form>
+                                    {% endblock %}
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -69,6 +162,34 @@
     <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#paymentTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/pt_pt.json'
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false,
+                    "width": "14%"
+                }]
+            });
+
+            $(".clickable-row, #paymentTable").on('click', 'tr', function (e) {
+                if (!$(event.target).hasClass("except") && $('#paymentTable').DataTable().data().count()) {
+                    window.location = $(this).data('href');
+                }
+            });
+            $("#addPaymentButton").click(function () {
+                $("#paymentModal").modal('show');
+            });
+        })
+
+
+    </script>
 
 </body>
 
