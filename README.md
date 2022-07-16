@@ -11,6 +11,7 @@ O vídeo pode ser visto em: https://youtu.be/q8RCXLw5spc
 
 Em seguida na pasta do projeto corra os comandos abaixo
 ```
+python -m venv Code\Python\Project1\venv
 pipenv shell
 pip install -r requirements.txt
 python manage.py makemigrations
