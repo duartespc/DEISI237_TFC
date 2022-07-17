@@ -11,7 +11,9 @@ O vídeo pode ser visto em: https://youtu.be/q8RCXLw5spc
 
 Em seguida na pasta do projeto corra os comandos abaixo
 ```
-pipenv shell
+python -m venv /C:/.../new_env_dir
+& /C:/.../new_env_dir/Scripts/Activate.ps1
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 python manage.py makemigrations
 python  manage.py migrate
