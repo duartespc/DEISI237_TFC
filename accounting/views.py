@@ -50,8 +50,11 @@ def html(request, filename):
     if current_user.is_anonymous and filename != "login":
         return redirect("/login.html")
 
-    inbox = Message.objects.filter(receiver=current_user)
-    context = {"filename": filename, 'inbox': inbox, "collapse": ""}
+    if current_user.is_anonymous:
+        context = {"filename": filename, "collapse": ""}
+    else:
+        inbox = Message.objects.filter(receiver=current_user)
+        context = {"filename": filename, 'inbox': inbox, "collapse": ""}
 
 
     if filename == "logout":
