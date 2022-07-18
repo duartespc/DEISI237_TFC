@@ -31,9 +31,9 @@
                 </a>
                 <div id="collapse1" class="collapse {% if collapse == "Items" %}show{% endif %}" aria-labelledby="heading1" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Items" %}active{% endif %}" href="/items/">Itens</a>
-                        <a class="collapse-item {% if filename == "Inventory" %}active{% endif %}" href="/inventario/">Inventário</a>
-                        <a class="collapse-item {% if filename == "Warehouses" %}active{% endif %}" href="/armazens/">Armazéns</a>
+                        <a class="collapse-item {% if filename == "Itens" %}active{% endif %}" href="/items/">Itens</a>
+                        <a class="collapse-item {% if filename == "Inventário" %}active{% endif %}" href="/inventario/">Inventário</a>
+                        <a class="collapse-item {% if filename == "Armazéns" %}active{% endif %}" href="/armazens/">Armazéns</a>
                     </div>
                 </div>
             </li>
@@ -48,8 +48,8 @@
                 </a>
                 <div id="collapse2" class="collapse {% if collapse == "Sales" %}show{% endif %}" aria-labelledby="heading2" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Customers" %}active{% endif %}" href="/clientes/">Clientes</a>
-                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Clientes" %}active{% endif %}" href="/clientes/">Clientes</a>
+                        <a class="collapse-item {% if filename == "Faturas" %}active{% endif %}" href="/faturas/">Faturas</a>
                     </div>
                 </div>
             </li>
@@ -62,10 +62,10 @@
                 </a>
                 <div id="collapse3" class="collapse {% if collapse == "Customers" %}show{% endif %}" aria-labelledby="heading3" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Suppliers" %}active{% endif %}" href="/fornecedores/">Fornecedores</a>
-                        <a class="collapse-item {% if filename == "Invoices" %}active{% endif %}" href="/faturas/">Faturas</a>
-                        <a class="collapse-item {% if filename == "Orders" %}active{% endif %}" href="/encomendas/">Encomendas</a>
-                        <a class="collapse-item {% if filename == "Payments" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
+                        <a class="collapse-item {% if filename == "Fornecedores" %}active{% endif %}" href="/fornecedores/">Fornecedores</a>
+                        <a class="collapse-item {% if filename == "Faturas" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Encomendas" %}active{% endif %}" href="/encomendas/">Encomendas</a>
+                        <a class="collapse-item {% if filename == "Pagamentos" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
                 </div>
             </li>			
@@ -78,9 +78,9 @@
                 </a>
                 <div id="collapse4" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading4" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Employees" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
-                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/cargos/">Cargos</a>
-                        <a class="collapse-item {% if filename == "Shifts" %}active{% endif %}" href="/turnos/">Turnos</a>
+                        <a class="collapse-item {% if filename == "Funcionários" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
+                        <a class="collapse-item {% if filename == "Cargos" %}active{% endif %}" href="/cargos/">Cargos</a>
+                        <a class="collapse-item {% if filename == "Turnos" %}active{% endif %}" href="/turnos/">Turnos</a>
                     </div>
                 </div>
             </li>
@@ -94,29 +94,35 @@
                 </a>
                 <div id="collapse5" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading5" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Employees" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
-                        <a class="collapse-item {% if filename == "Positions" %}active{% endif %}" href="/cargos/">Cargos</a>
+                        <a class="collapse-item {% if filename == "Funcionários" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
+                        <a class="collapse-item {% if filename == "Cargos" %}active{% endif %}" href="/cargos/">Cargos</a>
                     </div>
                 </div>
             </li>			
 
 
-			<li class="nav-item {% if filename == "Reports" %}active{% endif %}">
+			<li class="nav-item {% if filename == "Relatórios" %}active{% endif %}">
                 <a class="nav-link " href="/relatorios/">
                     <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Relatórios</span></a>
             </li>
 
-            <li class="nav-item {% if filename == "taskList" %}active{% endif %}">
+            <li class="nav-item {% if filename == "Tarefas" %}active{% endif %}">
                 <a class="nav-link " href="/tarefas/">
                     <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>Tarefas</span></a>
             </li>
 
-            <li class="nav-item {% if filename == "calendar" %}active{% endif %}">
+            <li class="nav-item {% if filename == "Calendário" %}active{% endif %}">
                 <a class="nav-link " href="/calendario/">
                     <i class="fas fa-calendar"></i>
                     <span>Calendário</span></a>
+            </li>
+
+            <li class="nav-item {% if filename == "Mensagens Privadas" %}active{% endif %}">
+                <a class="nav-link " href="/mensagens/">
+                    <i class="fas fa-envelope"></i>
+                    <span>Mensagens Privadas</span></a>
             </li>
 
 

@@ -105,7 +105,7 @@ def get_date(req_day):
     if req_day:
         year, month = (int(x) for x in req_day.split('-'))
         return date(year, month, day=1)
-    return timezone.today()
+    return date.today()
 
 
 def prev_month(d):
@@ -263,6 +263,15 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
 
     if zeroStock == True:
         restock(request)
+
+    current_user = request.user
+    email = EmailMessage('DEISI237 - Upload do ficheiro SAF-T concluido!',
+                             'O upload do ficheiro SAF-T foi concluído com sucesso, todas as informações já estão disponíveis para visualização.',
+                             'geral@eltuktukhero.pt',
+                             [current_user.email],
+                             headers={'Reply-To': 'geral@eltuktukhero.pt'})
+
+    email.send(fail_silently=False)
 
 
 @login_required
@@ -451,7 +460,7 @@ def restock(request):
         newItemInput = ItemInput()
         newItemInput.item = item
         newItemInput.cost = item.cost
-        newItemInput.date = timezone.today()
+        newItemInput.date = date.today()
         newItemInput.quantity = quantityOutput
         newItemInput.save()
 
@@ -533,7 +542,7 @@ def TaskList_view(request):
     if form.is_valid() and current_user.has_perm('accounting.add_task'):
         post = form.save(commit=False)
         post.createdBy = request.user
-        post.updatedOn = timezone.now()
+        post.updatedOn = datetime.now()
         post.save()
         return redirect('TaskList')
 
@@ -629,8 +638,10 @@ def UserInfo_view(request):
 def CustomerEdit_view(request, customer_id):
     current_user = request.user
     inbox = Message.objects.filter(receiver=current_user)
-    # Edit object of form
     customer = Customer.objects.get(id=customer_id)
+    invoices = Invoice.objects.filter(customer=customer)
+    
+    # Edit object of form
 
     form = CustomerForm(request.POST or None, instance=customer)
 
@@ -641,6 +652,7 @@ def CustomerEdit_view(request, customer_id):
     context = {
         'form': form,
         'inbox': inbox,
+        'invoices': invoices,
         'customer': customer,
         'collapse': 'Sales'
     }
@@ -817,7 +829,6 @@ def SaftList_view(request):
             handle_uploaded_saft(request, request.FILES['file'],
                                  request.FILES['file'].name, itemProfitRate,
                                  zeroStock)
-
             form.save()
             return redirect('SaftList')
     else:
