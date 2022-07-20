@@ -58,6 +58,7 @@ class CustomerForm(forms.ModelForm):
         }
 
         labels = {
+            'email': 'E-mail:',
             'title': 'Título:',
             'gender': 'Género:',
             'name': 'Nome:',
@@ -171,6 +172,7 @@ class OrderForm(forms.ModelForm):
         }
 
         labels = {
+            'tax': 'Taxa IVA (%)',
             'quantity': 'Quantidade:',
             'description': 'Descrição:',
             'cost': 'Valor:',
@@ -178,6 +180,17 @@ class OrderForm(forms.ModelForm):
             'warehouse': 'Armazém:',
             'date': 'Data:',
         }
+
+
+class EmailForm(forms.ModelForm):
+
+    class Meta:
+        model = Email
+        fields = "__all__"
+
+        labels = {'content': 'Conteúdo:', 'subject': 'Assunto:'}
+        widgets = {'author': forms.HiddenInput()}
+
 
 class MessageForm(forms.ModelForm):
 
@@ -187,7 +200,6 @@ class MessageForm(forms.ModelForm):
 
         labels = {'receiver': 'Para:', 'msg_content': 'Mensagem:'}
         widgets = {'sender': forms.HiddenInput()}
-
 
 
 class PositionForm(forms.ModelForm):

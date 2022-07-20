@@ -6,7 +6,6 @@ from django.forms import DateTimeField
 from django_countries.fields import *
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
-from pytz import timezone  # new
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _  # use if you support internationalization
@@ -82,6 +81,7 @@ class Customer(models.Model):
                       (GENDER_FEMALE, 'Feminino'), (GENDER_OTHER, 'Outro')]
     gender = models.IntegerField(choices=GENDER_CHOICES, default=0)
     name = models.CharField(max_length=100, blank=False, unique=False)
+    email = models.EmailField(null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     zipCode = models.CharField(max_length=8, null=True, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
@@ -92,7 +92,7 @@ class Customer(models.Model):
     phone = PhoneNumberField(blank=True, null=True)
     contactByEmail = models.BooleanField(blank=False,
                                          null=False,
-                                         default=False)
+                                         default=True)
     contactBySMS = models.BooleanField(blank=False, null=False, default=False)
     contactByPhone = models.BooleanField(blank=False,
                                          null=False,
@@ -100,6 +100,17 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Email(models.Model):
+    author = models.ForeignKey(User,
+                               null=False,
+                               blank=False,
+                               on_delete=models.CASCADE,
+                               related_name="author")
+    subject = models.TextField(null=False, blank=False)
+    content = models.TextField(null=False, blank=False)
+    timestamp = models.DateTimeField(editable=False, auto_now_add=True)
 
 
 class Employee(models.Model):
@@ -206,9 +217,10 @@ class ItemInput(models.Model):
                              blank=False,
                              on_delete=models.CASCADE)
     #warehouse = models.ForeignKey("Warehouse", null=True, on_delete=models.CASCADE)
-    #tax = models.FloatField(null=False, blank=False)
+    tax = models.FloatField(null=False, blank=False)
     cost = models.FloatField(null=False, blank=False)
     quantity = models.FloatField(null=False, blank=False)
+    total = models.FloatField(null=True, blank=True)
     #discount = models.FloatField(null=False, blank=False)
     order = models.ForeignKey("Order",
                               null=True,
@@ -224,11 +236,10 @@ class ItemOutput(models.Model):
                              on_delete=models.CASCADE)
     #warehouse = models.ForeignKey("Warehouse", null=True, on_delete=models.CASCADE)
     tax = models.FloatField(null=False, blank=False)
-    tax = models.FloatField(null=False, blank=False)
-    cost = models.FloatField(null=True, blank=True)
-    quantity = models.FloatField(null=True, blank=True)
-    discount = models.FloatField(null=True, blank=True)
-    #input = models.ForeignKey("ItemInput",null=False, blank=False, on_delete=models.CASCADE)
+    cost = models.FloatField(null=False, blank=False)
+    quantity = models.FloatField(null=False, blank=False)
+    total = models.FloatField(null=False, blank=False)
+    #discount = models.FloatField(null=True, blank=True)
 
 
 class Position(models.Model):
@@ -258,13 +269,15 @@ class External_Warehouse(Warehouse):
 
 class Message(models.Model):
     sender = models.ForeignKey(User,
-                             null=False,
-                             blank=False,
-                             on_delete=models.CASCADE, related_name="sender")
+                               null=False,
+                               blank=False,
+                               on_delete=models.CASCADE,
+                               related_name="sender")
     receiver = models.ForeignKey(User,
-                             null=False,
-                             blank=False,
-                             on_delete=models.CASCADE, related_name="receiver")
+                                 null=False,
+                                 blank=False,
+                                 on_delete=models.CASCADE,
+                                 related_name="receiver")
     msg_content = models.TextField(null=False, blank=False)
     created_At = models.DateTimeField(editable=False, auto_now_add=True)
 
@@ -301,6 +314,7 @@ class Order(models.Model):
     quantity = models.IntegerField(null=False, blank=False)
     cost = models.FloatField(null=False, blank=False)
     date = models.DateField(null=False, blank=False)
+    tax = models.FloatField(null=False, blank=False)
     supplier = models.ForeignKey("Supplier",
                                  null=True,
                                  blank=True,
@@ -309,7 +323,7 @@ class Order(models.Model):
                                   null=True,
                                   blank=True,
                                   on_delete=models.SET_NULL)
-    description = models.TextField(null=False, blank=False)
+    description = models.TextField(null=False, blank=True)
 
     def __str__(self):
         return self.item.code

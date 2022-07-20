@@ -1,14 +1,15 @@
+from asyncio.windows_events import NULL
 import calendar
 from email import message
 from email.message import EmailMessage
 from hashlib import new
+import json
 from os import F_OK
 import pdb
 from pyexpat.errors import messages
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, render
 from django.core.mail import EmailMessage
-
 from django.core.mail import send_mail
 
 from .utils import Calendar
@@ -37,6 +38,7 @@ from .forms import *
 from .models import *
 from .saft import *
 from .tasks import *
+from django.db.models import Sum
 
 
 @login_required
@@ -55,7 +57,6 @@ def html(request, filename):
     else:
         inbox = Message.objects.filter(receiver=current_user)
         context = {"filename": filename, 'inbox': inbox, "collapse": ""}
-
 
     if filename == "logout":
         logout(request)
@@ -81,8 +82,81 @@ def html(request, filename):
             context["error"] = "Utilizador não encontrado"
 
         print("login")
-    print(filename, request.method)
 
+    if filename == "index":
+        inbox = Message.objects.filter(receiver=current_user)
+        #month = datetime.datetime.now().month
+        #year = datetime.datetime.now().year
+        
+        month = 6
+        year = 2021
+        
+        allMonthsSales = []
+        allMonthsStockExpenses = []
+        allMonthsPaymentExpenses = []
+        monthsGains = []
+        monthsExpenses = []
+
+        for i in range(1, 13):
+            sales = Invoice.objects.filter(date__year=year,date__month=i).aggregate(Sum('netTotal'))
+            stock = ItemOutput.objects.filter(date__year=year, date__month=i).aggregate(Sum('total'))
+            payments = Payment.objects.filter(date__year=year, date__month=i).aggregate(Sum('cost'))
+            iSales = sales['netTotal__sum']
+            iStock = stock['total__sum']
+            iPayments = payments['cost__sum']
+            if iSales == None:
+                iSales = 0
+            if iStock == None:
+                iStock = 0
+            if iPayments == None:
+                iPayments = 0
+            allMonthsSales.append(iSales)
+            allMonthsStockExpenses.append(iStock)
+            allMonthsPaymentExpenses.append(iPayments)
+            monthsGains.append(iSales - iStock - iPayments)
+            monthsExpenses.append(iStock + iPayments)
+
+        yearSales = Invoice.objects.filter(date__year=year).aggregate(Sum('netTotal'))
+        yearStockExpenses = ItemOutput.objects.filter(date__year=year).aggregate(Sum('total'))
+        yearPaymentExpenses = Payment.objects.filter(date__year=year).aggregate(Sum('cost'))
+        ySales = yearSales['netTotal__sum']
+        yStock = yearStockExpenses['total__sum']
+        yPayments = yearPaymentExpenses['cost__sum']
+
+        if ySales == None:
+            ySales = 0
+        if yStock == None:
+            yStock = 0
+        if yPayments == None:
+            yPayments = 0
+
+        monthSales = allMonthsSales[month-1]
+        monthGains = allMonthsSales[month-1] - allMonthsStockExpenses[month-1] - allMonthsPaymentExpenses[month-1] 
+        yearGains = ySales - yStock - yPayments
+
+        #print(monthsGains)
+        #print(monthsExpenses)
+
+        allMonthsGains = json.dumps(monthsGains)
+        allMonthsExpenses = json.dumps(monthsExpenses)
+        allMonthsSales = json.dumps(allMonthsSales)
+
+        #pdb.set_trace()
+
+        context = {
+            "filename": filename,
+            'monthSales': monthSales,
+            'monthGains': monthGains,
+            'yearSales': ySales,
+            'yearGains': yearGains,
+            'allMonthsSales': allMonthsSales,
+            'allMonthsGains': allMonthsGains,
+            'allMonthsExpenses': allMonthsExpenses,
+            'inbox': inbox,
+            "collapse": ""
+        }
+
+    print(filename, request.method)
     return render(request, f"{filename}.html", context=context)
 
 
@@ -141,6 +215,7 @@ class CalendarView(generic.ListView):
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
+        context['collapse'] = 'Items'
 
         return context
 
@@ -224,9 +299,10 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
                 newItemOutput = ItemOutput()
                 newItemOutput.date = invoice["InvoiceDate"]
                 newItemOutput.item = Item.objects.get(code=item["ProductCode"])
-                newItemOutput.tax = item["Tax"]["TaxPercentage"]
-                newItemOutput.cost = item["UnitPrice"]
-                newItemOutput.quantity = item["Quantity"]
+                newItemOutput.tax = float(item["Tax"]["TaxPercentage"])
+                newItemOutput.cost = float(item["UnitPrice"])
+                newItemOutput.quantity = float(item["Quantity"])
+                newItemOutput.total = newItemOutput.cost * newItemOutput.quantity
                 #newItemOutput.input =
                 #newItemOutput.warehouse =
                 newInvoiceItem = InvoiceItem()
@@ -249,9 +325,10 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
                 newItemOutput = ItemOutput()
                 newItemOutput.date = invoice["InvoiceDate"]
                 newItemOutput.item = Item.objects.get(code=item["ProductCode"])
-                newItemOutput.tax = item["Tax"]["TaxPercentage"]
-                newItemOutput.cost = item["UnitPrice"]
-                newItemOutput.quantity = item["Quantity"]
+                newItemOutput.tax = float(item["Tax"]["TaxPercentage"])
+                newItemOutput.cost = float(item["UnitPrice"])
+                newItemOutput.quantity = float(item["Quantity"])
+                newItemOutput.total = newItemOutput.cost * newItemOutput.quantity
                 #newItemOutput.input =
                 #newItemOutput.warehouse =
                 newInvoiceItem = InvoiceItem()
@@ -265,12 +342,11 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
         restock(request)
 
     current_user = request.user
-    email = EmailMessage('DEISI237 - Upload do ficheiro SAF-T concluido!',
-                             'O upload do ficheiro SAF-T foi concluído com sucesso, todas as informações já estão disponíveis para visualização.',
-                             'geral@eltuktukhero.pt',
-                             [current_user.email],
-                             headers={'Reply-To': 'geral@eltuktukhero.pt'})
-
+    email = EmailMessage(
+        'DEISI237 - Upload do ficheiro SAF-T concluido!',
+        'O upload do ficheiro SAF-T foi concluído com sucesso, todas as informações já estão disponíveis para visualização.',
+        'deisi237@teste.pt', [current_user.email],
+        headers={'Reply-To': 'geral@eltuktukhero.pt'})
     email.send(fail_silently=False)
 
 
@@ -293,6 +369,45 @@ def CustomerList_view(request):
 
     return render(request=request,
                   template_name="customerList.html",
+                  context=context)
+
+
+@login_required
+def EmailList_view(request):
+    current_user = request.user
+    inbox = Message.objects.filter(receiver=current_user)
+    emails = Email.objects.all()
+
+    form = EmailForm(request.POST or None,
+                     request.FILES or None,
+                     initial={'author': current_user})
+
+    if form.is_valid():
+        subject = form.cleaned_data['subject']
+        content = form.cleaned_data['content']
+        form.save()
+
+        receivers = []
+        for customer in Customer.objects.all():
+            if customer.contactByEmail:
+                receivers.append(customer.email)
+
+        email = EmailMessage(subject,
+                             content,
+                             'deisi237@teste.pt',
+                             receivers,
+                             headers={'Reply-To': 'geral@eltuktukhero.pt'})
+
+        #email.attach(file.name, file.read())
+
+        email.send(fail_silently=False)
+
+        return redirect('EmailList')
+
+    context = {'form': form, 'inbox': inbox, 'emails': emails}
+
+    return render(request=request,
+                  template_name="emailList.html",
                   context=context)
 
 
@@ -330,7 +445,6 @@ def MessageList_view(request):
                        initial={'sender': current_user})
 
     if form.is_valid():
-
         form.save()
         return redirect('MessageList')
 
@@ -461,15 +575,17 @@ def restock(request):
         newItemInput.item = item
         newItemInput.cost = item.cost
         newItemInput.date = date.today()
+        newItemInput.tax = item.tax
         newItemInput.quantity = quantityOutput
+        newItemInput.total = item.cost * quantityOutput
         newItemInput.save()
 
 
 @login_required
 @permission_required('accounting.view_order')
 def OrderList_view(request):
-    inbox = Message.objects.filter(receiver=current_user)
     current_user = request.user
+    inbox = Message.objects.filter(receiver=current_user)
     form = OrderForm(request.POST or None, request.FILES or None)
 
     if form.is_valid() and current_user.has_perm('accounting.add_order'):
@@ -477,6 +593,7 @@ def OrderList_view(request):
         quantity = form.cleaned_data['quantity']
         cost = form.cleaned_data['cost']
         date = form.cleaned_data['date']
+        tax = form.cleaned_data['tax']
         description = form.cleaned_data['description']
         form.save()
         item = Item.objects.get(code=itemCode)
@@ -491,6 +608,7 @@ def OrderList_view(request):
         newItemInput.order = order
         newItemInput.date = date
         newItemInput.cost = cost
+        newItemInput.tax = tax
         newItemInput.save()
 
         return redirect('OrderList')
@@ -547,7 +665,7 @@ def TaskList_view(request):
         return redirect('TaskList')
 
     tasks = Task.objects.all()
-    context = {'form': form, 'inbox': inbox, 'tasks': tasks}
+    context = {'form': form, 'inbox': inbox, 'tasks': tasks, 'collapse': 'Extras'}
 
     return render(request=request,
                   template_name="taskList.html",
@@ -640,7 +758,7 @@ def CustomerEdit_view(request, customer_id):
     inbox = Message.objects.filter(receiver=current_user)
     customer = Customer.objects.get(id=customer_id)
     invoices = Invoice.objects.filter(customer=customer)
-    
+
     # Edit object of form
 
     form = CustomerForm(request.POST or None, instance=customer)
@@ -658,6 +776,26 @@ def CustomerEdit_view(request, customer_id):
     }
 
     return render(request, 'customerEdit.html', context=context)
+
+
+@login_required
+def EmailBulkAction_view(request, id=None):
+    current_user = request.user
+
+    if request.method == 'POST':
+        id_list = request.POST.getlist('instance')
+        # This will submit an array of the value attributes of all the
+        # checkboxes that have been checked, that is an array of {{obj.id}}
+
+        # Now all that is left is to iterate over the array fetch the
+        # object with the ID and delete it.
+        for email_id in id_list:
+            Email.objects.get(id=email_id).delete()
+        # maybe in some other cases it is not possible to delete an object
+        # as it may be foreigh key to another object
+        # in those cases it is better to issue a warning message
+
+    return redirect('EmailList')
 
 
 @permission_required('accounting.change_employee')
@@ -820,20 +958,19 @@ def PositionEdit_view(request, position_id):
 def SaftList_view(request):
     current_user = request.user
     inbox = Message.objects.filter(receiver=current_user)
-
-    if request.method == 'POST':
-        form = SaftForm(request.POST, request.FILES)
-        if form.is_valid() and current_user.has_perm('accounting.add_saft'):
-            itemProfitRate = form.cleaned_data['itemProfitRate']
-            zeroStock = form.cleaned_data['zeroStock']
-            handle_uploaded_saft(request, request.FILES['file'],
-                                 request.FILES['file'].name, itemProfitRate,
-                                 zeroStock)
-            form.save()
-            return redirect('SaftList')
-    else:
-        form = SaftForm()
     entries = Saft.objects.all()
+
+    form = SaftForm(request.POST or None, request.FILES or None)
+    if form.is_valid() and current_user.has_perm('accounting.add_saft'):
+        itemProfitRate = form.cleaned_data['itemProfitRate']
+        zeroStock = form.cleaned_data['zeroStock']
+        form.save()
+        handle_uploaded_saft(request, request.FILES['file'],
+                             request.FILES['file'].name, itemProfitRate,
+                             zeroStock)
+        #async_task(handle_uploaded_saft, request, itemProfitRate, zeroStock)
+        return redirect('SaftList')
+
     context = {'form': form, 'inbox': inbox, 'entries': entries}
     return render(request=request,
                   template_name="upload.html",

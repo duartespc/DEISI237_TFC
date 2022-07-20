@@ -24,7 +24,7 @@
 
                 {% include "topbar_part.html" %}
 
-                 
+
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -36,8 +36,6 @@
                         <div>
                             <a href="saft/" class="d-none d-sm-inline btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> Carregar SAF-T</a>
-                            <a href="#" class="d-none d-sm-inline btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a>
                         </div>
 
 
@@ -54,7 +52,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Vendas (Mensais)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40000€</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ monthSales|floatformat:"0" }}€</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -72,7 +71,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ganhos (Mensais)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40000€</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ monthGains|floatformat:"0" }}€</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -91,7 +91,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Vendas (Anuais)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">215000€</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ monthSales|floatformat:"0" }}€</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -102,7 +103,6 @@
                         </div>
 
 
-
                         <!-- Salles (Anually) -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
@@ -111,7 +111,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Ganhos (Anuais)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">215000€</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                {{ yearGains|floatformat:"0" }}€</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -127,7 +128,7 @@
                         <div class="row">
 
                             <!-- Area Chart -->
-                            <div class="col-xl-8 col-lg-7">
+                            <div class="col-xl col-lg">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
                                     <div
@@ -157,13 +158,14 @@
                                 </div>
                             </div>
 
-                            <!-- Pie Chart -->
-                            <div class="col-xl-4 col-lg-5">
+                            <!-- Expenses Area Chart -->
+
+                            <div class="col-xl col-lg">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
                                     <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary">Fontes de Receitas</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">Visão Geral de Gastos</h6>
                                         <div class="dropdown no-arrow">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -181,23 +183,40 @@
                                     </div>
                                     <!-- Card Body -->
                                     <div class="card-body">
-                                        <div class="chart-pie pt-4 pb-2">
-                                            <canvas id="myPieChart"></canvas>
-                                        </div>
-                                        <div class="mt-4 text-center small">
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-primary"></i> Direto
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-success"></i> Social
-                                            </span>
-                                            <span class="mr-2">
-                                                <i class="fas fa-circle text-info"></i> Referenciado
-                                            </span>
+                                        <div class="chart-area">
+                                            <canvas id="myAreaChart2"></canvas>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
+                            <!-- Sales Area Chart -->
+
+                            <div class="col-xl col-lg">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Visão Geral de Vendas</h6>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="myAreaChart3"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
 
                     </div>
@@ -222,12 +241,353 @@
 
         {% include "modals_and_scripts_part.html" %}
 
+        {{ allMonthsGains|json_script:"allMonthsGains" }}
+        {{ allMonthsExpenses|json_script:"allMonthsExpenses" }}
+        {{ allMonthsSales|json_script:"allMonthsSales" }}
+
+
+
         <!-- Page level plugins -->
         <script src="/static/vendor/chart.js/Chart.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="/static/js/demo/chart-area-demo.js"></script>
         <script src="/static/js/demo/chart-pie-demo.js"></script>
+
+
+        <!-- Here we get the allMonthsGains variable from python backend so we can use it down below in the charts -->
+        <script type="text/javascript">
+            const mydata = JSON.parse(document.getElementById('allMonthsGains').textContent);
+            const result = mydata.substring(1, mydata.length - 1);
+            const b = result.split(',').map(Number);
+        </script>
+
+        <script type="text/javascript">
+            const mydata2 = JSON.parse(document.getElementById('allMonthsExpenses').textContent);
+            const result2 = mydata2.substring(1, mydata2.length - 1);
+            const b2 = result2.split(',').map(Number);
+            console.log(b2)
+        </script>
+
+        <script type="text/javascript">
+            const mydata3 = JSON.parse(document.getElementById('allMonthsSales').textContent);
+            const result3 = mydata3.substring(1, mydata3.length - 1);
+            const b3 = result3.split(',').map(Number);
+            console.log(b3)
+        </script>
+
+        {% block script %}
+        <!-- Page level custom scripts -->
+        <script>
+
+            $(document).ready(function () {
+
+                // Set new default font family and font color to mimic Bootstrap's default styling
+                Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+                Chart.defaults.global.defaultFontColor = '#858796';
+
+                function number_format(number, decimals, dec_point, thousands_sep) {
+                    // *     example: number_format(1234.56, 2, ',', ' ');
+                    // *     return: '1 234,56'
+                    number = (number + '').replace(',', '').replace(' ', '');
+                    var n = !isFinite(+number) ? 0 : +number,
+                        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                        s = '',
+                        toFixedFix = function (n, prec) {
+                            var k = Math.pow(10, prec);
+                            return '' + Math.round(n * k) / k;
+                        };
+                    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+                    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+                    if (s[0].length > 3) {
+                        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+                    }
+                    if ((s[1] || '').length < prec) {
+                        s[1] = s[1] || '';
+                        s[1] += new Array(prec - s[1].length + 1).join('0');
+                    }
+                    return s.join(dec);
+                }
+
+                // Area Chart Example
+                var ctx = document.getElementById("myAreaChart");
+                var myLineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                        datasets: [{
+                            label: "Ganhos",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                            borderColor: "rgba(78, 115, 223, 1)",
+                            pointRadius: 3,
+                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                            data: b,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 25,
+                                top: 25,
+                                bottom: 0
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                time: {
+                                    unit: 'date'
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    maxTicksLimit: 7
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    maxTicksLimit: 5,
+                                    padding: 10,
+                                    // Include a dollar sign in the ticks
+                                    callback: function (value, index, values) {
+                                        return '$' + number_format(value);
+                                    }
+                                },
+                                gridLines: {
+                                    color: "rgb(234, 236, 244)",
+                                    zeroLineColor: "rgb(234, 236, 244)",
+                                    drawBorder: false,
+                                    borderDash: [2],
+                                    zeroLineBorderDash: [2]
+                                }
+                            }],
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            titleMarginBottom: 10,
+                            titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            intersect: false,
+                            mode: 'index',
+                            caretPadding: 10,
+                            callbacks: {
+                                label: function (tooltipItem, chart) {
+                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+                // Area Chart Example
+                var ctx2 = document.getElementById("myAreaChart2");
+                var myLineChart2 = new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                        datasets: [{
+                            label: "Gastos",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                            borderColor: "rgba(78, 115, 223, 1)",
+                            pointRadius: 3,
+                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                            data: b2,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 25,
+                                top: 25,
+                                bottom: 0
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                time: {
+                                    unit: 'date'
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    maxTicksLimit: 7
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    maxTicksLimit: 5,
+                                    padding: 10,
+                                    // Include a dollar sign in the ticks
+                                    callback: function (value, index, values) {
+                                        return '$' + number_format(value);
+                                    }
+                                },
+                                gridLines: {
+                                    color: "rgb(234, 236, 244)",
+                                    zeroLineColor: "rgb(234, 236, 244)",
+                                    drawBorder: false,
+                                    borderDash: [2],
+                                    zeroLineBorderDash: [2]
+                                }
+                            }],
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            titleMarginBottom: 10,
+                            titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            intersect: false,
+                            mode: 'index',
+                            caretPadding: 10,
+                            callbacks: {
+                                label: function (tooltipItem, chart) {
+                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+                // Area Chart Example
+                var ctx3 = document.getElementById("myAreaChart3");
+                var myLineChart3 = new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                        datasets: [{
+                            label: "Vendas",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(78, 115, 223, 0.05)",
+                            borderColor: "rgba(78, 115, 223, 1)",
+                            pointRadius: 3,
+                            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHoverRadius: 3,
+                            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                            data: b3,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 25,
+                                top: 25,
+                                bottom: 0
+                            }
+                        },
+                        scales: {
+                            xAxes: [{
+                                time: {
+                                    unit: 'date'
+                                },
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    maxTicksLimit: 7
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    maxTicksLimit: 5,
+                                    padding: 10,
+                                    // Include a dollar sign in the ticks
+                                    callback: function (value, index, values) {
+                                        return '$' + number_format(value);
+                                    }
+                                },
+                                gridLines: {
+                                    color: "rgb(234, 236, 244)",
+                                    zeroLineColor: "rgb(234, 236, 244)",
+                                    drawBorder: false,
+                                    borderDash: [2],
+                                    zeroLineBorderDash: [2]
+                                }
+                            }],
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            titleMarginBottom: 10,
+                            titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            intersect: false,
+                            mode: 'index',
+                            caretPadding: 10,
+                            callbacks: {
+                                label: function (tooltipItem, chart) {
+                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+
+            });
+
+        </script>
+        {% endblock script %}
+
 
 </body>
 

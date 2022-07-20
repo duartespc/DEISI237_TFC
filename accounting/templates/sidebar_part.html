@@ -19,6 +19,13 @@
                     <span>Painel</span></a>
             </li>
 
+
+            <li class="nav-item {% if filename == "Mensagens Privadas" %}active{% endif %}">
+                <a class="nav-link " href="/mensagens/">
+                    <i class="fas fa-envelope"></i>
+                    <span>Mensagens Privadas</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
@@ -50,6 +57,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Clientes" %}active{% endif %}" href="/clientes/">Clientes</a>
                         <a class="collapse-item {% if filename == "Faturas" %}active{% endif %}" href="/faturas/">Faturas</a>
+                        <a class="collapse-item {% if filename == "Email" %}active{% endif %}" href="/email/">Lista de e-mail</a>
                     </div>
                 </div>
             </li>
@@ -63,7 +71,6 @@
                 <div id="collapse3" class="collapse {% if collapse == "Customers" %}show{% endif %}" aria-labelledby="heading3" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Fornecedores" %}active{% endif %}" href="/fornecedores/">Fornecedores</a>
-                        <a class="collapse-item {% if filename == "Faturas" %}active{% endif %}" href="/faturas/">Faturas</a>
                         <a class="collapse-item {% if filename == "Encomendas" %}active{% endif %}" href="/encomendas/">Encomendas</a>
                         <a class="collapse-item {% if filename == "Pagamentos" %}active{% endif %}" href="/pagamentos/">Pagamentos</a>
                     </div>
@@ -80,51 +87,22 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {% if filename == "Funcionários" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
                         <a class="collapse-item {% if filename == "Cargos" %}active{% endif %}" href="/cargos/">Cargos</a>
-                        <a class="collapse-item {% if filename == "Turnos" %}active{% endif %}" href="/turnos/">Turnos</a>
                     </div>
                 </div>
             </li>
-			
-			
 
-            <li class="nav-item {% if collapse == "Banking" %}active{% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
-                    <i class="fas fa-fw fa-dollar-sign"></i>
-                    <span>Banco</span>
+            <li class="nav-item {% if collapse == "Extras" %}active{% endif %}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse4">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Extras</span>
                 </a>
-                <div id="collapse5" class="collapse {% if collapse == "HR" %}show{% endif %}" aria-labelledby="heading5" data-parent="#accordionSidebar">
+                <div id="collapse5" class="collapse {% if collapse == "Extras" %}show{% endif %}" aria-labelledby="heading4" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Funcionários" %}active{% endif %}" href="/funcionarios/">Funcionários</a>
-                        <a class="collapse-item {% if filename == "Cargos" %}active{% endif %}" href="/cargos/">Cargos</a>
+                        <a class="collapse-item {% if filename == "Tarefas" %}active{% endif %}" href="/tarefas/">Tarefas</a>
+                        <a class="collapse-item {% if filename == "Calendário" %}active{% endif %}" href="/calendario/">Calendário</a>
                     </div>
                 </div>
-            </li>			
-
-
-			<li class="nav-item {% if filename == "Relatórios" %}active{% endif %}">
-                <a class="nav-link " href="/relatorios/">
-                    <i class="fas fa-fw fa-chart-pie"></i>
-                    <span>Relatórios</span></a>
             </li>
-
-            <li class="nav-item {% if filename == "Tarefas" %}active{% endif %}">
-                <a class="nav-link " href="/tarefas/">
-                    <i class="fas fa-fw fa-clipboard-list"></i>
-                    <span>Tarefas</span></a>
-            </li>
-
-            <li class="nav-item {% if filename == "Calendário" %}active{% endif %}">
-                <a class="nav-link " href="/calendario/">
-                    <i class="fas fa-calendar"></i>
-                    <span>Calendário</span></a>
-            </li>
-
-            <li class="nav-item {% if filename == "Mensagens Privadas" %}active{% endif %}">
-                <a class="nav-link " href="/mensagens/">
-                    <i class="fas fa-envelope"></i>
-                    <span>Mensagens Privadas</span></a>
-            </li>
-
 
 			<hr class="sidebar-divider">
 
@@ -136,7 +114,7 @@
                 </a>
                 <div id="collapse6" class="collapse {% if collapse == "Settings" %}show{% endif %}" aria-labelledby="heading6" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item {% if filename == "Iva" %}active{% endif %}" href="/iva/">Taxas IVA</a>
+                        <a class="collapse-item {% if filename == "Iva" %}active{% endif %}" href="/saft/">Ficheiros SAF-T</a>
                     </div>
                 </div>
             </li>	

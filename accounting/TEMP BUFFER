@@ -14,15 +14,12 @@
 
 
 
-
-
-email = EmailMessage('Subject here',
-                                 'Here is the message.',
-                                 'geral@eltuktukhero.pt',
-                                 ['duarte.cambra@gmail.com'],
-                                 headers={'Reply-To': 'geral@eltuktukhero.pt'})
-
-            uploaded_file = request.FILES['file']
+email = EmailMessage(
+        'DEISI237 - Upload do ficheiro SAF-T concluido!',
+        'O upload do ficheiro SAF-T foi concluído com sucesso, todas as informações já estão disponíveis para visualização.',
+        'deisi237@teste.pt',
+        [current_user.email],
+        headers={'Reply-To': 'geral@eltuktukhero.pt'})
             email.attach(uploaded_file.name, uploaded_file.read(),
                          uploaded_file.content_type)
             email.send(fail_silently=False)

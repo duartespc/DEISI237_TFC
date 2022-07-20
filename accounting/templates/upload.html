@@ -112,7 +112,7 @@
                                     {% block content %}
                                     <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                         {{ form | crispy }}
-                                        <button type="submit" onclick="return confirm('Este processo pode ser demorado, não feche nem atualize a página até parar de carregar. Deseja continuar?')" class="btn btn-primary btn-icon-split float-right">
+                                        <button type="submit" onclick="return confirm('Este processo pode ser demorado, vai receber um e-mail quando o processo estiver concluído. Deseja continuar?')" class="btn btn-primary btn-icon-split float-right">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash-alt"></i>
                                             </span>
