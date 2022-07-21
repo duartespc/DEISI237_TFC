@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'accounting',
     'jquery',
     'djangobower',
-    'django_q'
+    'django_q',
 ]
 
 MIDDLEWARE = [

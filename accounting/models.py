@@ -136,6 +136,10 @@ class Employee(models.Model):
     contactByPhone = models.BooleanField(blank=False,
                                          null=False,
                                          default=False)
+    position = models.ForeignKey("Position",
+                               null=True,
+                               blank=True,
+                               on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -201,7 +205,7 @@ class Item(models.Model):
     notes = models.TextField(null=True, blank=True)
     supplier_Id = models.ForeignKey("Supplier",
                                     null=True,
-                                    blank=False,
+                                    blank=True,
                                     on_delete=models.SET_NULL)
     pvp = models.FloatField(null=True, blank=True)
     quantity_In_Stock = models.IntegerField(null=True, blank=True)
@@ -216,12 +220,10 @@ class ItemInput(models.Model):
                              null=False,
                              blank=False,
                              on_delete=models.CASCADE)
-    #warehouse = models.ForeignKey("Warehouse", null=True, on_delete=models.CASCADE)
     tax = models.FloatField(null=False, blank=False)
     cost = models.FloatField(null=False, blank=False)
     quantity = models.FloatField(null=False, blank=False)
     total = models.FloatField(null=True, blank=True)
-    #discount = models.FloatField(null=False, blank=False)
     order = models.ForeignKey("Order",
                               null=True,
                               blank=True,
@@ -234,12 +236,10 @@ class ItemOutput(models.Model):
                              null=False,
                              blank=False,
                              on_delete=models.CASCADE)
-    #warehouse = models.ForeignKey("Warehouse", null=True, on_delete=models.CASCADE)
     tax = models.FloatField(null=False, blank=False)
     cost = models.FloatField(null=False, blank=False)
     quantity = models.FloatField(null=False, blank=False)
     total = models.FloatField(null=False, blank=False)
-    #discount = models.FloatField(null=True, blank=True)
 
 
 class Position(models.Model):

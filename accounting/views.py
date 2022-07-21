@@ -87,71 +87,81 @@ def html(request, filename):
         inbox = Message.objects.filter(receiver=current_user)
         #month = datetime.datetime.now().month
         #year = datetime.datetime.now().year
-        
-        month = 6
-        year = 2021
-        
+
+        month=8
+        year=2021
+
         allMonthsSales = []
         allMonthsStockExpenses = []
         allMonthsPaymentExpenses = []
-        monthsGains = []
-        monthsExpenses = []
+        # monthsGains = Sales - Expenses
+        allMonthsGains = []
+        # monthsExpenses = Cost of stock + payments (like salaries, rent,...)
+        allMonthsExpenses = []
 
         for i in range(1, 13):
-            sales = Invoice.objects.filter(date__year=year,date__month=i).aggregate(Sum('netTotal'))
-            stock = ItemOutput.objects.filter(date__year=year, date__month=i).aggregate(Sum('total'))
-            payments = Payment.objects.filter(date__year=year, date__month=i).aggregate(Sum('cost'))
-            iSales = sales['netTotal__sum']
-            iStock = stock['total__sum']
-            iPayments = payments['cost__sum']
-            if iSales == None:
-                iSales = 0
-            if iStock == None:
-                iStock = 0
-            if iPayments == None:
-                iPayments = 0
-            allMonthsSales.append(iSales)
-            allMonthsStockExpenses.append(iStock)
-            allMonthsPaymentExpenses.append(iPayments)
-            monthsGains.append(iSales - iStock - iPayments)
-            monthsExpenses.append(iStock + iPayments)
+            sales = Invoice.objects.filter(date__year=year,
+                                           date__month=i).aggregate(
+                                               Sum('netTotal'))
+            stock = ItemInput.objects.filter(date__year=year,
+                                              date__month=i).aggregate(
+                                                  Sum('total'))
+            payments = Payment.objects.filter(date__year=year,
+                                              date__month=i).aggregate(
+                                                  Sum('cost'))
+            totalSales = sales['netTotal__sum']
+            totalStock = stock['total__sum']
+            totalPayments = payments['cost__sum']
+            if totalSales == None:
+                totalSales = 0
+            if totalStock == None:
+                totalStock = 0
+            if totalPayments == None:
+                totalPayments = 0
+            allMonthsSales.append(totalSales)
+            allMonthsStockExpenses.append(totalStock)
+            allMonthsPaymentExpenses.append(totalPayments)
+            allMonthsGains.append(totalSales - totalStock - totalPayments)
+            allMonthsExpenses.append(totalStock + totalPayments)
 
-        yearSales = Invoice.objects.filter(date__year=year).aggregate(Sum('netTotal'))
-        yearStockExpenses = ItemOutput.objects.filter(date__year=year).aggregate(Sum('total'))
-        yearPaymentExpenses = Payment.objects.filter(date__year=year).aggregate(Sum('cost'))
-        ySales = yearSales['netTotal__sum']
-        yStock = yearStockExpenses['total__sum']
-        yPayments = yearPaymentExpenses['cost__sum']
+        yearSales = Invoice.objects.filter(date__year=year).aggregate(
+            Sum('netTotal'))
+        yearStockExpenses = ItemInput.objects.filter(
+            date__year=year).aggregate(Sum('total'))
+        yearPaymentExpenses = Payment.objects.filter(
+            date__year=year).aggregate(Sum('cost'))
+        yearSales = yearSales['netTotal__sum']
+        yearStock = yearStockExpenses['total__sum']
+        yearPayments = yearPaymentExpenses['cost__sum']
 
-        if ySales == None:
-            ySales = 0
-        if yStock == None:
-            yStock = 0
-        if yPayments == None:
-            yPayments = 0
+        if yearSales == None:
+            yearSales = 0
+        if yearStock == None:
+            yearStock = 0
+        if yearPayments == None:
+            yearPayments = 0
 
-        monthSales = allMonthsSales[month-1]
-        monthGains = allMonthsSales[month-1] - allMonthsStockExpenses[month-1] - allMonthsPaymentExpenses[month-1] 
-        yearGains = ySales - yStock - yPayments
+        # We use [month-1] because months are 1-12 and the list goes from 0-11
+        monthSales = allMonthsSales[month - 1]
+        monthGains = allMonthsSales[month - 1] - allMonthsStockExpenses[
+            month - 1] - allMonthsPaymentExpenses[month - 1]
+        yearGains = yearSales - yearStock - yearPayments
 
-        #print(monthsGains)
-        #print(monthsExpenses)
-
-        allMonthsGains = json.dumps(monthsGains)
-        allMonthsExpenses = json.dumps(monthsExpenses)
+        allMonthsGains = json.dumps(allMonthsGains)
+        allMonthsExpenses = json.dumps(allMonthsExpenses)
         allMonthsSales = json.dumps(allMonthsSales)
-
-        #pdb.set_trace()
 
         context = {
             "filename": filename,
             'monthSales': monthSales,
             'monthGains': monthGains,
-            'yearSales': ySales,
+            'yearSales': yearSales,
             'yearGains': yearGains,
             'allMonthsSales': allMonthsSales,
             'allMonthsGains': allMonthsGains,
             'allMonthsExpenses': allMonthsExpenses,
+            'month': month,
+            'year': year,
             'inbox': inbox,
             "collapse": ""
         }
@@ -311,6 +321,21 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
                 existingInvoice.save()
                 newItemOutput.save()
                 newInvoiceItem.save()
+                if zeroStock:
+                    newItemInput = ItemInput()
+                    newItemInput.item = Item.objects.get(
+                        code=item["ProductCode"])
+                    newItemInput.cost = round(
+                        (
+                            float(item['UnitPrice'])
+                            *  # Item Profit Rate is a percentage Ex: 30% so we have to divide it by 100
+                            (1 - float(itemProfitRate) / 100)),
+                        2)
+                    newItemInput.date = invoice["InvoiceDate"]
+                    newItemInput.tax = float(item["Tax"]["TaxPercentage"])
+                    newItemInput.quantity = float(item["Quantity"])
+                    newItemInput.total = newItemInput.cost * newItemInput.quantity
+                    newItemInput.save()
         except Invoice.DoesNotExist:
             existingInvoice = Invoice(docNumber=invoice["InvoiceNo"])
             existingInvoice.customer = Customer.objects.get(
@@ -337,9 +362,21 @@ def handle_uploaded_saft(request, f, filename, itemProfitRate, zeroStock):
                 existingInvoice.save()
                 newItemOutput.save()
                 newInvoiceItem.save()
-
-    if zeroStock == True:
-        restock(request)
+                if zeroStock:
+                    newItemInput = ItemInput()
+                    newItemInput.item = Item.objects.get(
+                        code=item["ProductCode"])
+                    newItemInput.cost = round(
+                        (
+                            float(item['UnitPrice'])
+                            *  # Item Profit Rate is a percentage Ex: 30% so we have to divide it by 100
+                            (1 - float(itemProfitRate) / 100)),
+                        2)
+                    newItemInput.date = invoice["InvoiceDate"]
+                    newItemInput.tax = float(item["Tax"]["TaxPercentage"])
+                    newItemInput.quantity = float(item["Quantity"])
+                    newItemInput.total = newItemInput.cost * newItemInput.quantity
+                    newItemInput.save()
 
     current_user = request.user
     email = EmailMessage(
@@ -373,6 +410,7 @@ def CustomerList_view(request):
 
 
 @login_required
+@permission_required('accounting.add_email')
 def EmailList_view(request):
     current_user = request.user
     inbox = Message.objects.filter(receiver=current_user)
@@ -396,12 +434,9 @@ def EmailList_view(request):
                              content,
                              'deisi237@teste.pt',
                              receivers,
-                             headers={'Reply-To': 'geral@eltuktukhero.pt'})
-
-        #email.attach(file.name, file.read())
+                             headers={'Reply-To': 'deisi237@teste.pt'})
 
         email.send(fail_silently=False)
-
         return redirect('EmailList')
 
     context = {'form': form, 'inbox': inbox, 'emails': emails}
@@ -509,7 +544,6 @@ def InventoryList_view(request):
     inbox = Message.objects.filter(receiver=current_user)
 
     # quantity in stock = count(itemInputs) - count(itemOutputs)
-
     for item in items:
         quantityInput = 0
         quantityOutput = 0
@@ -609,6 +643,7 @@ def OrderList_view(request):
         newItemInput.date = date
         newItemInput.cost = cost
         newItemInput.tax = tax
+        newItemInput.total = float(cost) * float(quantity)
         newItemInput.save()
 
         return redirect('OrderList')
@@ -665,7 +700,12 @@ def TaskList_view(request):
         return redirect('TaskList')
 
     tasks = Task.objects.all()
-    context = {'form': form, 'inbox': inbox, 'tasks': tasks, 'collapse': 'Extras'}
+    context = {
+        'form': form,
+        'inbox': inbox,
+        'tasks': tasks,
+        'collapse': 'Extras'
+    }
 
     return render(request=request,
                   template_name="taskList.html",
@@ -779,6 +819,7 @@ def CustomerEdit_view(request, customer_id):
 
 
 @login_required
+@permission_required('accounting.delete_email')
 def EmailBulkAction_view(request, id=None):
     current_user = request.user
 
