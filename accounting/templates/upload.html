@@ -86,8 +86,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <button type="submit"
-                                    class="btn btn-danger btn-icon-split float-left">
+                                <button type="submit" class="btn btn-danger btn-icon-split float-left">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash-alt"></i>
                                     </span>
@@ -110,9 +109,12 @@
                                 <div class="modal-body" id="my-modal-body">
 
                                     {% block content %}
-                                    <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                    <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">{%
+                                        csrf_token %}
                                         {{ form | crispy }}
-                                        <button type="submit" onclick="return confirm('Este processo pode ser demorado, vai receber um e-mail quando o processo estiver concluído. Deseja continuar?')" class="btn btn-primary btn-icon-split float-right">
+                                        <button type="submit"
+                                            onclick="return confirm('Este processo pode ser demorado, vai receber um e-mail quando o processo estiver concluído. Deseja continuar?')"
+                                            class="btn btn-primary btn-icon-split float-right">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-trash-alt"></i>
                                             </span>
@@ -156,17 +158,23 @@
     <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts 
+    <!-- Page level custom scripts  -->
     <script>
-        $(document).ready(function() {
-            $("#saftModal").modal("show");
+        $(document).ready(function () {
 
-            $("#uploadForm").on("submit", function(){
-                confirm("Este processo pode ser demorado, não feche nem atualize a página até parar de carregar. Deseja continuar?")
-            })
+            $('#saftTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/pt_pt.json'
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "orderable": true,
+                    "width": "30%"
+                }]
+            });
 
         });
-    </script> -->
+    </script>
 
 </body>
 
