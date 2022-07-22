@@ -2,7 +2,7 @@
 
 ## Vídeo de apresentação
 
-O vídeo pode ser visto em: https://youtu.be/q8RCXLw5spc
+O vídeo pode ser visto em: https://youtu.be/es9JGxIyAcM
 
 ## Guia de Instalação
 * Instalar python3
