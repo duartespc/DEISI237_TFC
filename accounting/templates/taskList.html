@@ -45,38 +45,6 @@
                         </div>
                     </div>
 
-                    <!-- Project Card Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">TO-DO List</h6>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="small font-weight-bold">Upload ficheiro-SAFT <span
-                                    class="float-right">30%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                    aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Integração Calendário <span
-                                    class="float-right">60%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Integração Inventário <span
-                                    class="float-right">70%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar" role="progressbar" style="width: 60%"
-                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Modelação de Dados <span
-                                    class="float-right">80%</span></h4>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%"
-                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -94,9 +62,10 @@
                                                     </div>
                                                 </th>
                                                 <th class="except">Título</th>
-                                                <th class="except">Atribuido por:</th>
-                                                <th class="except">Atribuido a:</th>
-
+                                                <th class="except">Atribuido por</th>
+                                                <th class="except">Atribuido a</th>
+                                                <th class="except">Data Prazo</th>
+                                                <th class="except">Hora Prazo</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -111,6 +80,8 @@
                                                 <td>{{t.title}}</td>
                                                 <td>{{t.createdBy}}</td>
                                                 <td>{{t.assignedTo}}</td>
+                                                <td>{{t.endDate}}</td>
+                                                <td>{{t.endTime}}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

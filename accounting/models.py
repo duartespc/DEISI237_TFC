@@ -361,16 +361,18 @@ class Task(models.Model):
     createdOn = models.DateTimeField(editable=False, auto_now_add=True)
     updatedOn = models.DateTimeField(auto_now=True)
     createdBy = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
+        null=False,
+        blank=False,
         on_delete=models.CASCADE,
-        related_name="created_by_user_profile",
-        default=1,
+        related_name="createdBy"
     )
     assignedTo = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
+        null=False,
+        blank=False,
         on_delete=models.CASCADE,
-        related_name="assigned_to_user_profile",
-        default=1,
+        related_name="assignedTo"
     )
     completed = models.BooleanField(default=False)
 

@@ -8,8 +8,9 @@ from accounting import views
 
 urlpatterns = [
 	re_path(r'^event/new/', views.event, name='event_new'),
-    re_path(r'eventos/editar/<event_id>/', views.event, name='event_edit'),
-    re_path(r'calendario/', views.CalendarView.as_view(), name='calendar'), # here
+    re_path(r'^event/edit/(?P<event_id>\d+)/$', views.event, name='event_edit'),
+    re_path(r'calendario/', views.CalendarView.as_view(), name='calendar'),
+	re_path(r'^EventBulkAction/$', views.EventBulkAction_view, name='EventBulkAction'),
     path('admin/', admin.site.urls, name="AdminPage"),
     path('<filename>.html', views.html),
 	path('clientes/', views.CustomerList_view, name='CustomerList'),

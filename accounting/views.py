@@ -7,6 +7,7 @@ import json
 from os import F_OK
 import pdb
 from pyexpat.errors import messages
+from django.dispatch import receiver
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, render
 from django.core.mail import EmailMessage
@@ -38,7 +39,7 @@ from .forms import *
 from .models import *
 from .saft import *
 from .tasks import *
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 
 @login_required
@@ -88,8 +89,8 @@ def html(request, filename):
         #month = datetime.datetime.now().month
         #year = datetime.datetime.now().year
 
-        month=8
-        year=2021
+        month = 8
+        year = 2021
 
         allMonthsSales = []
         allMonthsStockExpenses = []
@@ -104,8 +105,8 @@ def html(request, filename):
                                            date__month=i).aggregate(
                                                Sum('netTotal'))
             stock = ItemInput.objects.filter(date__year=year,
-                                              date__month=i).aggregate(
-                                                  Sum('total'))
+                                             date__month=i).aggregate(
+                                                 Sum('total'))
             payments = Payment.objects.filter(date__year=year,
                                               date__month=i).aggregate(
                                                   Sum('cost'))
@@ -169,7 +170,8 @@ def html(request, filename):
     print(filename, request.method)
     return render(request, f"{filename}.html", context=context)
 
-
+@login_required
+@permission_required('accounting_add_event')
 def event(request, event_id=None):
     instance = Event()
     if event_id:
@@ -182,7 +184,7 @@ def event(request, event_id=None):
         form.save()
         return HttpResponseRedirect(reverse('calendar'))
 
-    return render(request, 'event.html', {'form': form})
+    return render(request, 'event.html', {'form': form, 'event_id': event_id})
 
 
 def get_date(req_day):
@@ -210,7 +212,7 @@ def next_month(d):
 class CalendarView(generic.ListView):
     model = Event
     template_name = 'calendarList.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -225,7 +227,7 @@ class CalendarView(generic.ListView):
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
-        context['collapse'] = 'Items'
+        context['collapse'] = 'Extras'
 
         return context
 
@@ -436,7 +438,7 @@ def EmailList_view(request):
                              receivers,
                              headers={'Reply-To': 'deisi237@teste.pt'})
 
-        email.send(fail_silently=False)
+        email.send(fail_silently=True)
         return redirect('EmailList')
 
     context = {'form': form, 'inbox': inbox, 'emails': emails}
@@ -691,15 +693,33 @@ def TaskList_view(request):
     current_user = request.user
     inbox = Message.objects.filter(receiver=current_user)
     form = TaskForm(request.POST or None, request.FILES or None)
+    tasks = Task.objects.filter(Q(createdBy=current_user) | Q(assignedTo=current_user))
 
     if form.is_valid() and current_user.has_perm('accounting.add_task'):
         post = form.save(commit=False)
         post.createdBy = request.user
-        post.updatedOn = datetime.now()
+        post.updatedOn = datetime.datetime.now()
         post.save()
+        dateDeadLine = form.cleaned_data['endDate']
+        timeDeadLine = form.cleaned_data['endTime']
+        title = form.cleaned_data['title']
+        sendTo = form.cleaned_data['assignedTo']
+        email = EmailMessage(
+            f'DEISI237 - {request.user} atribuiu-te uma tarefa: {title}',
+            f'Olá, o utilizador {request.user} atribuiu-te uma tarefa com o prazo até {dateDeadLine} às {timeDeadLine} com o título: {title}',
+            'deisi237@teste.pt', [sendTo.email],
+            headers={'Reply-To': 'deisi237@teste.pt'})
+        email.send(fail_silently=True)
+
+        msg = Message()
+        msg.sender = request.user
+        msg.receiver = sendTo
+        msg.msg_content = f'Mensagem Automática: Olá, o utilizador {request.user} atribuiu-te uma tarefa com o prazo até {dateDeadLine} às {timeDeadLine} com o título: {title}'
+        msg.created_At = datetime.datetime.now()
+        msg.save()
+
         return redirect('TaskList')
 
-    tasks = Task.objects.all()
     context = {
         'form': form,
         'inbox': inbox,
@@ -837,6 +857,26 @@ def EmailBulkAction_view(request, id=None):
         # in those cases it is better to issue a warning message
 
     return redirect('EmailList')
+
+
+@login_required
+@permission_required('accounting.delete_event')
+def EventBulkAction_view(request, id=None):
+
+    if request.method == 'POST':
+        id_list = request.POST.getlist('instance')
+        # This will submit an array of the value attributes of all the
+        # checkboxes that have been checked, that is an array of {{obj.id}}
+
+        # Now all that is left is to iterate over the array fetch the
+        # object with the ID and delete it.
+        for event_id in id_list:
+            Event.objects.get(id=event_id).delete()
+        # maybe in some other cases it is not possible to delete an object
+        # as it may be foreigh key to another object
+        # in those cases it is better to issue a warning message
+
+    return redirect('calendar')
 
 
 @permission_required('accounting.change_employee')
