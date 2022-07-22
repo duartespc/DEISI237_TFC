@@ -197,7 +197,7 @@ class Item(models.Model):
                             blank=False)
     category = models.IntegerField(choices=CATEGORY_CHOICES, default=0)
     tax = models.FloatField(null=False, blank=False)
-    cost = models.FloatField(null=True, blank=True)
+    cost = models.FloatField(null=False, blank=False)
     description = models.TextField(null=True, blank=True)
     external_Ref = models.CharField(max_length=12, blank=True, null=True)
     weight = models.FloatField(null=True, blank=True)
@@ -207,8 +207,7 @@ class Item(models.Model):
                                     null=True,
                                     blank=True,
                                     on_delete=models.SET_NULL)
-    pvp = models.FloatField(null=True, blank=True)
-    quantity_In_Stock = models.IntegerField(null=True, blank=True)
+    pvp = models.FloatField(null=False, blank=False)
 
     def __str__(self):
         return self.code
