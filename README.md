@@ -9,6 +9,8 @@ O vídeo pode ser visto em: https://youtu.be/es9JGxIyAcM
 * Instalar python3-pip
 * Instalar pipenv (ou criar virtual environment usando IDE)
 
+* Se tiver problemas com a falta do módulo pkg_resources: usar o comando "pip install --upgrade setuptools"
+
 Em seguida na pasta do projeto corra os comandos abaixo
 ```
 python -m venv /C:/.../new_env_dir
